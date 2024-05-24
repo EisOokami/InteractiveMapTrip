@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .navbar-option {
+        @apply flex items-center gap-1 text-sm sm:text-base md:text-lg lg:text-xl text-white bg-bright-blue rounded-full sm:rounded-none mx-1 sm:mx-0 px-2 py-1 sm:px-4 sm:py-2 md:py-3 lg:py-4 cursor-pointer hover:bg-blue-700 transition-all ease-in;
+    }
+
+    .input-search {
+        @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-5/6 p-2.5 mt-3 w-full;
+    }
+
+    .date-box {
+        @apply flex justify-center items-center text-white bg-bright-blue rounded w-12 h-12 hover:bg-blue-700;
+    }
+}
+
+body {
+    overflow-y: hidden;
+}
