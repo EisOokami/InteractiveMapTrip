@@ -1,10 +1,6 @@
-import { useState } from 'react';
 import "./Search.scss";
 
-export default function Search({ modalSearch, positions, valueLocation, valueName, setValueLocation, setValueName, setZoomLocationX, setZoomLocationY,setSelectedPosition, setOpenPlaceCard }) {
-    const [dropdownVisible, setDropdownVisible] = useState(false);
-    const [selectedCategories, setSelectedCategories] = useState([]);
-
+export default function Search({ modalSearch, positions, valueLocation, valueName, setValueLocation, setValueName, dropdownVisible, setDropdownVisible, selectedCategories, setSelectedCategories, setZoomLocationX, setZoomLocationY,setSelectedPosition, setOpenPlaceCard }) {
     if (!modalSearch) return null;
 
     const handleChangeLocation = (e) => {
@@ -92,7 +88,7 @@ export default function Search({ modalSearch, positions, valueLocation, valueNam
                 )}
             </div>
 
-            <div className="card-search mt-3 overflow-y-auto max-h-[74vh]">
+            <div className="card-search mt-3 overflow-y-auto max-h-[calc(100vh-50px)]">
                 {filteredPositions.map((elem) => (
                     <a 
                         key={elem.id} 

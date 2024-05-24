@@ -84,6 +84,8 @@ export default function App() {
     const [modalSearch, setModalSearch] = useState(false);
     const [valueLocation, setValueLocation] = useState("");
     const [valueName, setValueName] = useState("");
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState([]);
     const [zoomLocationX, setZoomLocationX] = useState(52.083);
     const [zoomLocationY, setZoomLocationY] = useState(19.375);
     const [selectedPosition, setSelectedPosition] = useState(null);
@@ -117,6 +119,10 @@ export default function App() {
                     valueName={valueName}
                     setValueLocation={setValueLocation}
                     setValueName={setValueName}
+                    dropdownVisible={dropdownVisible}
+                    setDropdownVisible={setDropdownVisible}
+                    selectedCategories={selectedCategories}
+                    setSelectedCategories={setSelectedCategories}
                     setZoomLocationX={setZoomLocationX}
                     setZoomLocationY={setZoomLocationY}
                     selectedPosition={selectedPosition}
