@@ -1,6 +1,6 @@
 import "./Search.scss";
 
-export default function Search({ modalSearch, positions, valueLocation, valueName, setValueLocation, setValueName, dropdownVisible, setDropdownVisible, selectedCategories, setSelectedCategories, setZoomLocationX, setZoomLocationY,setSelectedPosition, setOpenPlaceCard }) {
+export default function Search({ modalSearch, positions, valueLocation, valueName, setValueLocation, setValueName, dropdownVisible, setDropdownVisible, selectedCategories, setSelectedCategories, setZoomLocationX, setZoomLocationY, setSelectedPosition, setOpenPlaceCard }) {
     if (!modalSearch) return null;
 
     const handleChangeLocation = (e) => {
@@ -71,6 +71,7 @@ export default function Search({ modalSearch, positions, valueLocation, valueNam
                                             id={`checkbox-item-${key}`}
                                             type="checkbox"
                                             value={category}
+                                            checked={selectedCategories.includes(category)}
                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                                             onChange={() => handleCategoryChange(category)}
                                         />
@@ -88,7 +89,7 @@ export default function Search({ modalSearch, positions, valueLocation, valueNam
                 )}
             </div>
 
-            <div className="card-search mt-3 overflow-y-auto max-h-[calc(100vh-50px)]">
+            <div className="card-search mt-3 overflow-y-auto max-h-[65vh] sm:max-h-[75vh]">
                 {filteredPositions.map((elem) => (
                     <a 
                         key={elem.id} 

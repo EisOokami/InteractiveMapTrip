@@ -1,12 +1,16 @@
+import { MdDirectionsBike } from "react-icons/md";
+import { FaCar, FaWalking, FaInfoCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import "./Trip.scss"
 import L from "leaflet";
 import "leaflet-routing-machine";
 
-export default function Trip({ positions, datesStorage, showRoute, setShowRoute, routingControl, setRoutingControl }) {
+/* eslint-disable no-unused-vars */
+export default function Trip({ positions, datesStorage, setOpenTrip, showRoute, setShowRoute, routingControl, setRoutingControl }) {
     const [sortedDates, setSortedDates] = useState([]);
-    /* eslint-disable no-unused-vars */
     const [routeInfo, setRouteInfo] = useState(null);
+    const [isRoute, setIsRoute] = useState(null);
+    const [transportMode, setTransportMode] = useState('car');
     /* eslint-enable no-unused-vars */ 
 
     useEffect(() => {
@@ -33,7 +37,9 @@ export default function Trip({ positions, datesStorage, showRoute, setShowRoute,
         setSortedDates(sortedDatesArray);
     }, [datesStorage, positions]);
 
-    const handleNavigation = (places) => {
+    const handleNavigation = (places, date) => {
+        setIsRoute(null);
+
         if (showRoute && routingControl) {
             routingControl.remove();
             setRoutingControl(null);
@@ -46,6 +52,8 @@ export default function Trip({ positions, datesStorage, showRoute, setShowRoute,
 
         const waypoints = places.map(place => L.latLng(place.x, place.y));
         
+        const profile = transportMode === 'car' ? 'driving' : (transportMode === 'bike' ? 'cycling' : 'walking');
+
         const newRoutingControl = L.Routing.control({
             waypoints,
             lineOptions: {
@@ -53,7 +61,10 @@ export default function Trip({ positions, datesStorage, showRoute, setShowRoute,
             },
             createMarker: () => null,
             routeWhileDragging: false,
-            addWaypoints: false
+            addWaypoints: false,
+            router: L.Routing.mapbox('pk.eyJ1IjoicGFwb2I2NTE2MyIsImEiOiJjbHdvc2ZjeXowNmEzMmxwMXl2bWp0bG9lIn0.rjsesOn8yBOT8uQN4wYI8w', {
+                profile: `mapbox/${profile}`
+            })
         }).on('routesfound', (e) => {
             const route = e.routes[0];
             const summary = route.summary;
@@ -63,25 +74,50 @@ export default function Trip({ positions, datesStorage, showRoute, setShowRoute,
             setShowRoute(true); 
         }).addTo(window.map);
 
+        setIsRoute(date);
+
         setRoutingControl(newRoutingControl);
         window.map.fitBounds(L.latLngBounds(waypoints));
     };
 
-    useEffect(() => {
-        const isAnyDateActive = Object.values(datesStorage).some(dates => dates.some(date => date.active));
-        if (!isAnyDateActive && routingControl) {
-            routingControl.remove();
-            setRoutingControl(null);
-            setRouteInfo(null);
-            setShowRoute(false);
-        }
-    }, [datesStorage, routingControl, setShowRoute, setRoutingControl]);
+    // useEffect(() => {
+    //     const isAnyDateActive = Object.values(datesStorage).some(dates => dates.some(date => date.active));
+    //     if (!isAnyDateActive && routingControl) {
+    //         routingControl.remove();
+    //         setRoutingControl(null);
+    //         setRouteInfo(null);
+    //         setShowRoute(false);
+    //     }
+    // }, [datesStorage, routingControl, setShowRoute, setRoutingControl]);
 
     return (
         <div className="trip absolute shadow-2xl top-0 sm:top-[40px] md:top-[52px] lg:top-[60px] bottom-0 z-[1999] w-full sm:w-2/5 h-[110%] pt-8 sm:pt-0 bg-white transition-all ease-in">
             <div className="trip-info max-w-x p-4">
                 <h1 className="text-2xl sm:text-3xl font-bold mb-3">Trip Plan</h1>
-                <div className="cards-place overflow-y-auto h-[87vh]">
+                <div className="transport-modes grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-4">
+                    <button
+                        type="button"
+                        className={transportMode === "car" ? "btn-global bg-blue-800" : "btn-global"}
+                        onClick={() => setTransportMode("car")}
+                    >
+                        <FaCar />Samochody
+                    </button>
+                    <button
+                        type="button"
+                        className={transportMode === "bike" ? "btn-global bg-blue-800" : "btn-global"}
+                        onClick={() => setTransportMode("bike")}
+                    >
+                        <MdDirectionsBike />Rower
+                    </button>
+                    <button
+                        type="button"
+                        className={transportMode === "walk" ? "btn-global bg-blue-800" : "btn-global"}
+                        onClick={() => setTransportMode("walk")}
+                    >
+                        <FaWalking />Pieszo
+                    </button>
+                </div>
+                <div className="cards-place overflow-y-auto h-[calc(100vh-300px)] sm:h-[calc(100vh-26svh)] lg:h-[calc(100vh-27vh)]">
                     {
                         sortedDates.length ? sortedDates.map(({ date, places }) => (
                             <div key={date} className="date-section mb-4">
@@ -99,11 +135,17 @@ export default function Trip({ positions, datesStorage, showRoute, setShowRoute,
                                 <div className="btn-navigation mt-3">
                                     <button
                                         type="button"
-                                        className="text-white bg-bright-blue hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
-                                        onClick={() => handleNavigation(places)}
+                                        className="btn-global"
+                                        onClick={() => handleNavigation(places, date)}
                                     >
                                         Nawigacja
                                     </button>
+                                    {
+                                    isRoute === date 
+                                    ? (
+                                        <p className="flex items-center gap-1 text-lg font-bold"><FaInfoCircle className=" text-blue-800" />Trasa została zaplanowana</p>
+                                    ) 
+                                    : null}
                                 </div>
                             </div>
                         ))

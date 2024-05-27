@@ -32,3 +32,21 @@
         font-weight: 600;
     }
 }
+
+.leaflet-control-layers-list {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 639px) {
+    .leaflet-control-layers {
+        top: 30px;
+    }
+}
+
+.leaflet-routing-collapse-btn {
+    top: -8px;
+    right: 20px;
+    color: #ff0000;
+    font-size: 40px;
+}

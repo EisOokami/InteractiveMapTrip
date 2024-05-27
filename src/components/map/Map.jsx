@@ -1,4 +1,4 @@
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { LayersControl, MapContainer, Marker, TileLayer, useMap, LayerGroup } from "react-leaflet";
 import { Icon } from "leaflet";
 import "./Map.scss";
 
@@ -22,10 +22,28 @@ export default function Map({ setModalSearch, positions, zoomLocationX, zoomLoca
     return (
         <MapContainer center={[zoomLocationX, zoomLocationY]} zoom={7} scrollWheelZoom={true}>
             <ChangeView center={[zoomLocationX, zoomLocationY]} />
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+            <LayersControl>
+                <LayersControl.BaseLayer checked name="OpenStreetMap">
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                </LayersControl.BaseLayer>
+                <LayersControl.BaseLayer name="Google Map Satellite">
+                    <LayerGroup>
+                        <TileLayer
+                            attribution="Google Maps Satellite"
+                            url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+                        />
+                        <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+                    </LayerGroup>
+                </LayersControl.BaseLayer>
+                <LayersControl.BaseLayer name="Circle">
+                    <TileLayer
+                        url="https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=fa595c9430dc4c019d1d936817687bb3"
+                    />
+                </LayersControl.BaseLayer>
+            </LayersControl>
             {positions.map((elem) => (
                 <Marker
                     key={elem.id}

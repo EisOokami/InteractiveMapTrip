@@ -19,8 +19,8 @@ const positions = [
         id: 2,
         name: "Antalya Kebab u Bogusi",
         img: "https://d-art.ppstatic.pl/kadry/k/r/1/22/1e/65c0e1f838515_o_full.jpg",
-        x: 53.001,
-        y: 17.000,
+        x: 50.551,
+        y: 18.000,
         location: "Opole",
         category: "Restauracja"
     },
@@ -28,8 +28,8 @@ const positions = [
         id: 3,
         name: "Zagłębiowski Park Sportowy - ArcelorMittal Park",
         img: "https://lh5.googleusercontent.com/proxy/RfFucqcqYCBiq_-rsoPjGje67Cy9R1Zmtkkdp6dbq0ajWAjKj3iTu-T0dfSQGQvIpXwd39FVrJG14EcAFqKI7uG77jUezUOzodPpTDN8MUdHOH_BIzUthZ-4aN947xS6W0-BUGv8vxoDZdWoGu1WAN6BjOKoW1c-",
-        x: 53.001,
-        y: 22.000,
+        x: 50.201,
+        y: 19.000,
         location: "Sosnowiec",
         category: "Park"
     },
@@ -37,8 +37,8 @@ const positions = [
         id: 4,
         name: "Camper & Camping Park",
         img: "https://cdn2.acsi.eu/6/5/7/e/657eb320d5a9c.jpg?impolicy=gallery-detail",
-        x: 50.501,
-        y: 18.000,
+        x: 54.301,
+        y: 18.650,
         location: "Gdańsk",
         category: "Park"
     },
@@ -46,8 +46,8 @@ const positions = [
         id: 5,
         name: "Miejskie Centrum Sportu i Rekreacji w Płońsku",
         img: "https://ciechanow.cozadzien.pl/img/2020/04/30/_min/10e2c8dc13504108cd96a7ac5b14f8e2.jpg",
-        x: 51.001,
-        y: 20.000,
+        x: 52.501,
+        y: 17.000,
         location: "Płońsk",
         category: "Ośrodek zdrowia"
     },
@@ -64,8 +64,8 @@ const positions = [
         id: 7,
         name: "Galeria Łódzka",
         img: "https://www.galeria-lodzka.pl/fileadmin/user_upload/TEST/Stage_images/GLL_photos/GL_STRONA_WWW_1920X1080_2.jpg",
-        x: 54.301,
-        y: 19.000,
+        x: 51.701,
+        y: 19.500,
         location: "Łódź",
         category: "Centrum handlowe"
     },
@@ -77,6 +77,42 @@ const positions = [
         y: 19.000,
         location: "Nieporęt",
         category: "Kompleks pływacki"
+    },
+    {
+        id: 9,
+        name: "Star Paintball",
+        img: "https://hydra.fit/cdn/shop/files/image_aa9199bd-0bd3-4461-9b77-af47c452d735_1024x1024.heic?v=1683040367",
+        x: 53.251,
+        y: 15.000,
+        location: "Szczecin",
+        category: "Paintball center"
+    },
+    {
+        id: 10,
+        name: "Plaza Rzeszów",
+        img: "https://pliki.propertynews.pl/i/04/43/51/044351_r0_940.jpg",
+        x: 50.001,
+        y: 22.000,
+        location: "Rzeszów",
+        category: "Centrum handlowe"
+    },
+    {
+        id: 11,
+        name: "Frangos Pizza & Burger House",
+        img: "https://smacznego.moja-ostroleka.pl/libs/r.php?src=https://smacznego.moja-ostroleka.pl/uploads/smacznego/frangos/frangos_308.jpg&w=600",
+        x: 53.071,
+        y: 21.580,
+        location: "Ostrołęka",
+        category: "Restauracja"
+    },
+    {
+        id: 12,
+        name: "Queen Mama",
+        img: "https://d-art.ppstatic.pl/kadry/k/r/1/d4/70/5ef5ec75052b3_o_large.jpg",
+        x: 51.201,
+        y: 22.600,
+        location: "Lublin",
+        category: "Restauracja"
     },
 ];
 
@@ -95,10 +131,10 @@ export default function App() {
     const [showRoute, setShowRoute] = useState(false); 
     const [routingControl, setRoutingControl] = useState(null);
 
-    const updateDatesStorage = (positionId, dates) => {
+    const updateDatesStorage = (date, properties) => {
         setDatesStorage(prevState => ({
             ...prevState,
-            [positionId]: dates
+            [date]: properties
         }));
     };
 
@@ -149,6 +185,7 @@ export default function App() {
                         <Trip 
                             positions={positions}
                             datesStorage={datesStorage}
+                            setOpenTrip={setOpenTrip}
                             showRoute={showRoute}
                             setShowRoute={setShowRoute}
                             routingControl={routingControl}
