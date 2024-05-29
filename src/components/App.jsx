@@ -126,6 +126,16 @@ const positions = [
         category: "Restauracja",
         time: 1800
     },
+    {
+        id: 13,
+        name: "Pomnik Czynu Powstańczego na Górze św. Anny",
+        img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Pomnik_Czynu_Powsta%C5%84czego.jpg",
+        x: 50.501,
+        y: 18.200,
+        location: "Lublin",
+        category: "Pomnik wojskowy",
+        time: 3600
+    },
 ];
 
 export default function App() {
