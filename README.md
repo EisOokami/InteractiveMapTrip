@@ -75,6 +75,7 @@ Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 - **React-Leaflet**: React components for Leaflet maps.
 - **SCSS**: CSS preprocessor for easier and more efficient styling.
 - **Icons**: Various icons from React Icons library.
+- **TailwindCSS**: Streamlines web development by providing a set of pre-designed utility classes
 
 ## Contributing
 
@@ -106,6 +107,9 @@ Inspiration, code snippets, etc.
 * [OpenStreetMap](https://www.openstreetmap.org/#map=7/51.968/18.660)
 * [project-osrm](https://project-osrm.org/)
 * [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+* [mapbox](https://www.mapbox.com/)
+* [Leaflet Routing Machine](https://www.liedman.net/leaflet-routing-machine/)
+* [React Leaflet](https://react-leaflet.js.org/)
 ---
 
-Thank you for visiting the Tourist Interactive Map project! We hope this tool helps you have an amazing travel experience. If you have any questions or feedback, please feel free to open an issue or contribute to the project. Happy travels!
+Thank you for visiting the Tourist Interactive Map project! I hope this tool helps you have an amazing travel experience. If you have any questions or feedback, please feel free to open an issue or contribute to the project. Happy travels!
