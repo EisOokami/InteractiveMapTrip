@@ -13,7 +13,8 @@ const positions = [
         x: 51.0945,
         y: 17.0197,
         location: "Wrocław",
-        category: "Centrum handlowe"
+        category: "Centrum handlowe",
+        time: 3600
     },
     {
         id: 2,
@@ -22,7 +23,8 @@ const positions = [
         x: 50.551,
         y: 18.000,
         location: "Opole",
-        category: "Restauracja"
+        category: "Restauracja",
+        time: 1800
     },
     {
         id: 3,
@@ -31,7 +33,8 @@ const positions = [
         x: 50.201,
         y: 19.000,
         location: "Sosnowiec",
-        category: "Park"
+        category: "Park",
+        time: 1800
     },
     {
         id: 4,
@@ -40,7 +43,8 @@ const positions = [
         x: 54.301,
         y: 18.650,
         location: "Gdańsk",
-        category: "Park"
+        category: "Park",
+        time: 1800
     },
     {
         id: 5,
@@ -49,7 +53,8 @@ const positions = [
         x: 52.501,
         y: 17.000,
         location: "Płońsk",
-        category: "Ośrodek zdrowia"
+        category: "Ośrodek zdrowia",
+        time: 3600
     },
     {
         id: 6,
@@ -58,7 +63,8 @@ const positions = [
         x: 52.001,
         y: 15.000,
         location: "Barlinek",
-        category: "Park"
+        category: "Park",
+        time: 1800
     },
     {
         id: 7,
@@ -67,7 +73,8 @@ const positions = [
         x: 51.701,
         y: 19.500,
         location: "Łódź",
-        category: "Centrum handlowe"
+        category: "Centrum handlowe",
+        time: 3600
     },
     {
         id: 8,
@@ -76,7 +83,8 @@ const positions = [
         x: 53.001,
         y: 19.000,
         location: "Nieporęt",
-        category: "Kompleks pływacki"
+        category: "Kompleks pływacki",
+        time: 3600
     },
     {
         id: 9,
@@ -85,7 +93,8 @@ const positions = [
         x: 53.251,
         y: 15.000,
         location: "Szczecin",
-        category: "Paintball center"
+        category: "Paintball center",
+        time: 5400
     },
     {
         id: 10,
@@ -94,7 +103,8 @@ const positions = [
         x: 50.001,
         y: 22.000,
         location: "Rzeszów",
-        category: "Centrum handlowe"
+        category: "Centrum handlowe",
+        time: 3600
     },
     {
         id: 11,
@@ -103,7 +113,8 @@ const positions = [
         x: 53.071,
         y: 21.580,
         location: "Ostrołęka",
-        category: "Restauracja"
+        category: "Restauracja",
+        time: 1800
     },
     {
         id: 12,
@@ -112,7 +123,8 @@ const positions = [
         x: 51.201,
         y: 22.600,
         location: "Lublin",
-        category: "Restauracja"
+        category: "Restauracja",
+        time: 1800
     },
 ];
 
@@ -129,7 +141,11 @@ export default function App() {
     const [datesStorage, setDatesStorage] = useState({});
     const [openTrip, setOpenTrip] = useState(false);
     const [showRoute, setShowRoute] = useState(false); 
+    const [transportMode, setTransportMode] = useState('car');
     const [routingControl, setRoutingControl] = useState(null);
+    const [sortedDates, setSortedDates] = useState([]);
+    const [showRouteNavigation, setShowRouteNavigation] = useState(false);
+    const [routeBlocked, setRouteBlocked] = useState(false);
 
     const updateDatesStorage = (date, properties) => {
         setDatesStorage(prevState => ({
@@ -176,20 +192,30 @@ export default function App() {
                             setOpenPlaceCard={setOpenPlaceCard}
                             datesStorage={datesStorage}
                             updateDatesStorage={updateDatesStorage}
+                            setRouteBlocked={setRouteBlocked}
                         />
                     )
                     : null
                 }
                 {
                     openTrip ? (
-                        <Trip 
+                        <Trip
                             positions={positions}
                             datesStorage={datesStorage}
-                            setOpenTrip={setOpenTrip}
                             showRoute={showRoute}
                             setShowRoute={setShowRoute}
                             routingControl={routingControl}
                             setRoutingControl={setRoutingControl}
+                            transportMode={transportMode}
+                            setTransportMode={setTransportMode}
+                            setDatesStorage={setDatesStorage}
+                            updateDatesStorage={updateDatesStorage}
+                            sortedDates={sortedDates}
+                            setSortedDates={setSortedDates}
+                            showRouteNavigation={showRouteNavigation}
+                            setShowRouteNavigation={setShowRouteNavigation}
+                            routeBlocked={routeBlocked}
+                            setRouteBlocked={setRouteBlocked}
                         />
                     )
                     : null

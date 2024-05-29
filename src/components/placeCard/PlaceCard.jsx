@@ -4,7 +4,7 @@ import { BiSolidCategory } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import "./PlaceCard.scss";
 
-export default function PlaceCard({ positions, selectedPosition, setOpenPlaceCard, datesStorage, updateDatesStorage }) {
+export default function PlaceCard({ positions, selectedPosition, setOpenPlaceCard, datesStorage, updateDatesStorage, setRouteBlocked }) {
     const todayDate = new Date();
     const formattedTodayDate = `${todayDate.getDate() < 10 ? "0" + todayDate.getDate() : todayDate.getDate()}/${(todayDate.getMonth() + 1) < 10 ? "0" + (todayDate.getMonth() + 1) : (todayDate.getMonth() + 1)}`;
     const positionId = selectedPosition - 1;
@@ -41,6 +41,7 @@ export default function PlaceCard({ positions, selectedPosition, setOpenPlaceCar
         
         setDates(updatedDates);
         updateDatesStorage(positionId, updatedDates);
+        setRouteBlocked(false);
     };
 
     useEffect(() => {
