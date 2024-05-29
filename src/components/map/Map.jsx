@@ -11,12 +11,12 @@ function ChangeView({ center }) {
 
 export default function Map({ setModalSearch, positions, zoomLocationX, zoomLocationY, setZoomLocationX, setZoomLocationY, setSelectedPosition, setOpenPlaceCard, setOpenTrip }) {
     const handleZoomLocation = (x, y, key) => {
-        setZoomLocationX(x);
-        setZoomLocationY(y);
-        setSelectedPosition(key);
         setModalSearch(true);
         setOpenPlaceCard(true);
         setOpenTrip(false);
+        setZoomLocationX(x);
+        setZoomLocationY(y);
+        setSelectedPosition(key);
     };
 
     return (
