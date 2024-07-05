@@ -4,12 +4,13 @@ import Navbar from "./navbar/Navbar";
 import Search from "./search/Search";
 import PlaceCard from "./placeCard/PlaceCard";
 import Trip from "./trip/Trip";
+import Modal from "./modal/Modal";
 
 const positions = [
     {
         id: 1,
         name: "Sky Tower",
-        img: "https://skytower.pl/cache/img/78/7889493635f4edb7c19d6c1b72047ca5.webp",
+        img: "https://ocdn.eu/pulscms/MDA_/f3c0e553ba7b0bcdbc01e4d6d372945e.jpg",
         x: 51.0945,
         y: 17.0197,
         location: "Wrocław",
@@ -156,6 +157,7 @@ export default function App() {
     const [sortedDates, setSortedDates] = useState([]);
     const [showRouteNavigation, setShowRouteNavigation] = useState(false);
     const [routeBlocked, setRouteBlocked] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(true);
 
     const updateDatesStorage = (date, properties) => {
         setDatesStorage(prevState => ({
@@ -241,6 +243,7 @@ export default function App() {
                     setOpenPlaceCard={setOpenPlaceCard}
                     setOpenTrip={setOpenTrip}
                 />
+                <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} />
             </div>
         </div>
     )
