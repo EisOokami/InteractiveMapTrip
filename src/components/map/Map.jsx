@@ -1,4 +1,11 @@
-import { LayersControl, MapContainer, Marker, TileLayer, useMap, LayerGroup } from "react-leaflet";
+import {
+    LayersControl,
+    MapContainer,
+    Marker,
+    TileLayer,
+    useMap,
+    LayerGroup,
+} from "react-leaflet";
 import { Icon } from "leaflet";
 import "./Map.scss";
 
@@ -9,9 +16,19 @@ function ChangeView({ center }) {
     return null;
 }
 
-export default function Map({ setModalSearch, positions, zoomLocationX, zoomLocationY, setZoomLocationX, setZoomLocationY, setSelectedPosition, setOpenPlaceCard, setOpenTrip }) {
+export default function Map({
+    setOpenSearch,
+    positions,
+    zoomLocationX,
+    zoomLocationY,
+    setZoomLocationX,
+    setZoomLocationY,
+    setSelectedPosition,
+    setOpenPlaceCard,
+    setOpenTrip,
+}) {
     const handleZoomLocation = (x, y, key) => {
-        setModalSearch(true);
+        setOpenSearch(true);
         setOpenPlaceCard(true);
         setOpenTrip(false);
         setZoomLocationX(x);
@@ -20,26 +37,32 @@ export default function Map({ setModalSearch, positions, zoomLocationX, zoomLoca
     };
 
     return (
-        <MapContainer center={[zoomLocationX, zoomLocationY]} zoom={7} scrollWheelZoom={true}>
+        <MapContainer
+            center={[zoomLocationX, zoomLocationY]}
+            zoom={7}
+            scrollWheelZoom={true}
+        >
             <ChangeView center={[zoomLocationX, zoomLocationY]} />
             <LayersControl>
                 <LayersControl.BaseLayer checked name="OpenStreetMap">
                     <TileLayer
+                        className="dark-leaflet-layer"
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                 </LayersControl.BaseLayer>
-                <LayersControl.BaseLayer name="Google Map Satellite">
+                <LayersControl.BaseLayer name="Satellite">
                     <LayerGroup>
                         <TileLayer
-                            attribution="Google Maps Satellite"
+                            attribution="<a href='https://www.google.com/maps'>Google Maps Satellite</a>"
                             url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
                         />
-                        <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
                     </LayerGroup>
                 </LayersControl.BaseLayer>
                 <LayersControl.BaseLayer name="Circle">
                     <TileLayer
+                        className="dark-leaflet-layer"
+                        attribution="&copy; <a href='https://www.thunderforest.com/'>Thunderforest</a>"
                         url="https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=fa595c9430dc4c019d1d936817687bb3"
                     />
                 </LayersControl.BaseLayer>
@@ -48,16 +71,20 @@ export default function Map({ setModalSearch, positions, zoomLocationX, zoomLoca
                 <Marker
                     key={elem.id}
                     position={[elem.x, elem.y]}
-                    icon={new Icon({
-                        iconUrl: "https://www.pngall.com/wp-content/uploads/2017/05/Map-Marker-PNG-Picture.png",
-                        shadowUrl: elem.img,
-                        iconSize: [50, 50],
-                        iconAnchor: [25, 50],
-                        shadowSize: [26, 26],
-                        shadowAnchor: [13, 44]
-                    })}
+                    icon={
+                        new Icon({
+                            iconUrl:
+                                "https://www.pngall.com/wp-content/uploads/2017/05/Map-Marker-PNG-Picture.png",
+                            shadowUrl: elem.img,
+                            iconSize: [50, 50],
+                            iconAnchor: [25, 50],
+                            shadowSize: [26, 26],
+                            shadowAnchor: [13, 44],
+                        })
+                    }
                     eventHandlers={{
-                        click: () => handleZoomLocation(elem.x, elem.y, elem.id),
+                        click: () =>
+                            handleZoomLocation(elem.x, elem.y, elem.id),
                     }}
                 />
             ))}

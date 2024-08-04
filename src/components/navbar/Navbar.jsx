@@ -1,47 +1,57 @@
+import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import { FaPersonHiking } from "react-icons/fa6";
 
-export default function Navbar({modalSearch, setModalSearch, setOpenPlaceCard, openTrip, setOpenTrip}) {
+export default function Navbar({
+    openSearch,
+    setOpenSearch,
+    setOpenPlaceCard,
+    openTrip,
+    setOpenTrip,
+}) {
     const handleOpenMap = () => {
-        setModalSearch(false);
+        setOpenSearch(false);
         setOpenPlaceCard(false);
         setOpenTrip(false);
     };
 
     const handleOpenSearch = () => {
-        setModalSearch(!modalSearch);
+        setOpenSearch(!openSearch);
         setOpenPlaceCard(false);
         setOpenTrip(false);
     };
 
     const handleOpenTrip = () => {
-        setModalSearch(false);
+        setOpenSearch(false);
         setOpenPlaceCard(false);
         setOpenTrip(!openTrip);
     };
 
     return (
-        <div className="navbar shadow-2xl font-mono flex justify-center sm:bg-bright-blue">
-            <ul className="flex absolute z-[2000] sm:relative mt-2 sm:mt-0">
-                <li 
-                    className="navbar-option sm:border-r-2" 
+        <div className="navbar md:grid bg-white dark:bg-second-black border-t-2 md:border-t-0 md:border-r-2 dark:border-second-gray font-mono z-[1999] transition-colors duration-700">
+            <ul className="flex justify-around md:flex-col md:justify-center">
+                <motion.li
+                    className={`option_navbar ${!openSearch && !openTrip ? "option-active_navbar" : ""}`}
                     onClick={handleOpenMap}
                 >
-                    <FaMapMarkerAlt/>MAPA
-                </li>
-                <li 
-                    className="navbar-option sm:border-r-2"
-                    onClick={handleOpenSearch}    
+                    <FaMapMarkerAlt />
+                    <div className="option-bg-gradient_navbar"></div>
+                </motion.li>
+                <li
+                    className={`option_navbar ${openSearch ? "option-active_navbar" : ""}`}
+                    onClick={handleOpenSearch}
                 >
-                    <FaSearch/>SZUKAJ
+                    <FaSearch />
+                    <div className="option-bg-gradient_navbar"></div>
                 </li>
-                <li 
-                    className="navbar-option"
+                <li
+                    className={`option_navbar ${openTrip ? "option-active_navbar" : ""}`}
                     onClick={handleOpenTrip}
                 >
-                    <FaPersonHiking/>WYCIECZKA
+                    <FaPersonHiking />
+                    <div className="option-bg-gradient_navbar"></div>
                 </li>
             </ul>
         </div>
-    )
+    );
 }

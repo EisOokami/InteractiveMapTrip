@@ -1,7 +1,19 @@
-import "./Search.scss";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
-export default function Search({ modalSearch, positions, valueLocation, valueName, setValueLocation, setValueName, dropdownVisible, setDropdownVisible, selectedCategories, setSelectedCategories, setZoomLocationX, setZoomLocationY, setSelectedPosition, setOpenPlaceCard }) {
-    if (!modalSearch) return null;
+export default function Search({
+    positions,
+    valueLocation,
+    valueName,
+    setValueLocation,
+    setValueName,
+    setZoomLocationX,
+    setZoomLocationY,
+    setSelectedPosition,
+    setOpenPlaceCard,
+}) {
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState([]);
 
     const handleChangeLocation = (e) => {
         setValueLocation(e.target.value.toLowerCase());
@@ -18,8 +30,8 @@ export default function Search({ modalSearch, positions, valueLocation, valueNam
     const handleCategoryChange = (category) => {
         setSelectedCategories((prevSelected) =>
             prevSelected.includes(category)
-                ? prevSelected.filter(cat => cat !== category)
-                : [...prevSelected, category]
+                ? prevSelected.filter((cat) => cat !== category)
+                : [...prevSelected, category],
         );
     };
 
@@ -30,58 +42,70 @@ export default function Search({ modalSearch, positions, valueLocation, valueNam
         setOpenPlaceCard(true);
     };
 
-    const uniqueCategories = [...new Set(positions.map(pos => pos.category))];
+    const uniqueCategories = [...new Set(positions.map((pos) => pos.category))];
 
-    const filteredPositions = positions.filter(elem =>
-        elem.name.toLowerCase().includes(valueName) &&
-        elem.location.toLowerCase().includes(valueLocation) &&
-        (selectedCategories.length === 0 || selectedCategories.includes(elem.category))
+    const filteredPositions = positions.filter(
+        (elem) =>
+            elem.name.toLowerCase().includes(valueName) &&
+            elem.location.toLowerCase().includes(valueLocation) &&
+            (selectedCategories.length === 0 ||
+                selectedCategories.includes(elem.category)),
     );
 
     return (
-        <div className="search absolute sm:relative bottom-0 z-[1999] w-full sm:w-1/2 h-full p-5 pt-10 sm:pt-1 bg-white transition-all ease-in shadow-2xl">
-            <input 
-                className="input-search" 
-                type="text" 
-                placeholder="Lokalizacja" 
-                onChange={handleChangeLocation} 
+        <div className="search absolute flex flex-col w-screen md:w-full h-full px-3 bg-white dark:bg-second-black z-[1001] transition-colors duration-700">
+            <h1 className="mt-5 dark:text-white text-2xl sm:text-3xl font-bold">
+                Search
+            </h1>
+            <input
+                className="input_search"
+                type="text"
+                placeholder="Location"
+                onChange={handleChangeLocation}
             />
-            <input 
-                className="input-search" 
-                type="text" 
-                placeholder="Nazwa obiektu" 
-                onChange={handleChangeName} 
+            <input
+                className="input_search"
+                type="text"
+                placeholder="Place name"
+                onChange={handleChangeName}
             />
             <div className="relative">
-                <button
+                <motion.input
                     onClick={handleDropdownToggle}
-                    className="text-white bg-bright-blue hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm mt-3 px-5 py-2.5 text-center inline-flex items-center w-full transition-all ease-in"
+                    className="btn-category_search"
                     type="button"
-                >
-                    Wybierz kategorie
-                </button>
+                    value="Select category"
+                    whileTap={{ scale: 0.85 }}
+                />
 
                 {dropdownVisible && (
-                    <div className="absolute z-10 bg-white rounded-lg shadow mt-2 w-full">
-                        <ul className="p-3 space-y-1 text-sm text-gray-700">
+                    <div className="absolute w-full mt-2 bg-white dark:bg-second-black rounded-lg shadow border z-10 transition-colors duration-700">
+                        <ul className="p-3 space-y-1 text-sm">
                             {uniqueCategories.map((category, key) => (
                                 <li key={key}>
-                                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                    <motion.div
+                                        className="flex items-center p-2 rounded hover:bg-gray-100 hover:dark:bg-gray-900 transition-colors duration-700"
+                                        whileTap={{ scale: 0.85 }}
+                                    >
                                         <input
                                             id={`checkbox-item-${key}`}
                                             type="checkbox"
                                             value={category}
-                                            checked={selectedCategories.includes(category)}
+                                            checked={selectedCategories.includes(
+                                                category,
+                                            )}
                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                            onChange={() => handleCategoryChange(category)}
+                                            onChange={() =>
+                                                handleCategoryChange(category)
+                                            }
                                         />
-                                        <label 
-                                            htmlFor={`checkbox-item-${key}`} 
-                                            className="w-full ms-2 text-sm font-medium text-gray-900 rounded"
+                                        <label
+                                            htmlFor={`checkbox-item-${key}`}
+                                            className="w-full ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 rounded transition-colors duration-700"
                                         >
                                             {category}
                                         </label>
-                                    </div>
+                                    </motion.div>
                                 </li>
                             ))}
                         </ul>
@@ -89,23 +113,31 @@ export default function Search({ modalSearch, positions, valueLocation, valueNam
                 )}
             </div>
 
-            <div className="card-search mt-3 overflow-y-auto max-h-[65vh] sm:max-h-[75vh]">
+            <div className="card-search grid justify-items-center mt-3 p-2 rounded overflow-x-hidden overflow-y-scroll">
                 {filteredPositions.map((elem) => (
-                    <a 
-                        key={elem.id} 
-                        href="#" 
-                        className="flex flex-row items-center bg-white border border-gray-200 rounded-lg shadow max-w-xl hover:bg-gray-100 mb-3" 
-                        onClick={() => handleZoomLocation(elem.x, elem.y, elem.id)}
+                    <a
+                        key={elem.id}
+                        href="#"
+                        className="place-card_search"
+                        onClick={() =>
+                            handleZoomLocation(elem.x, elem.y, elem.id)
+                        }
                     >
-                        <img 
-                            className="object-cover h-36 w-28 rounded-l-lg" 
-                            src={elem.img} 
-                            alt={elem.name} 
+                        <img
+                            className="object-cover w-full h-36 rounded-t-lg"
+                            src={elem.img}
+                            alt={elem.name}
                         />
-                        <div className="flex flex-col justify-between p-4 leading-normal">
-                            <h5 className="font-bold tracking-tight text-gray-900">{elem.name}</h5>
-                            <p className="mt-2 text-sm font-normal text-gray-700">{elem.category}</p>
-                            <p className="text-sm italic font-normal">{elem.location}</p>
+                        <div className="p-4">
+                            <h5 className="tracking-tight text-gray-900 dark:text-gray-100 font-bold  transition-colors duration-700">
+                                {elem.name}
+                            </h5>
+                            <p className="mt-2 text-gray-700 dark:text-gray-300 text-sm font-normal transition-colors duration-700">
+                                {elem.category}
+                            </p>
+                            <p className="dark:text-white text-sm italic font-normal transition-colors duration-700">
+                                {elem.location}
+                            </p>
                         </div>
                     </a>
                 ))}

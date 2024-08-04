@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import useDeviceDetect from "../hooks/useDeviceDetect";
 import Map from "./map/Map";
 import Navbar from "./navbar/Navbar";
 import Search from "./search/Search";
 import PlaceCard from "./placeCard/PlaceCard";
 import Trip from "./trip/Trip";
-import Modal from "./modal/Modal";
+import DarkModeBtn from "./darkModeBtn/DarkModeBtn";
 
 const positions = [
     {
@@ -14,237 +16,277 @@ const positions = [
         x: 51.0945,
         y: 17.0197,
         location: "Wrocław",
-        category: "Centrum handlowe",
-        time: 3600
+        category: "Shopping center",
+        time: 3600,
     },
     {
         id: 2,
         name: "Antalya Kebab u Bogusi",
         img: "https://d-art.ppstatic.pl/kadry/k/r/1/22/1e/65c0e1f838515_o_full.jpg",
         x: 50.551,
-        y: 18.000,
+        y: 18.0,
         location: "Opole",
-        category: "Restauracja",
-        time: 1800
+        category: "Restaurant",
+        time: 1800,
     },
     {
         id: 3,
         name: "Zagłębiowski Park Sportowy - ArcelorMittal Park",
         img: "https://lh5.googleusercontent.com/proxy/RfFucqcqYCBiq_-rsoPjGje67Cy9R1Zmtkkdp6dbq0ajWAjKj3iTu-T0dfSQGQvIpXwd39FVrJG14EcAFqKI7uG77jUezUOzodPpTDN8MUdHOH_BIzUthZ-4aN947xS6W0-BUGv8vxoDZdWoGu1WAN6BjOKoW1c-",
         x: 50.201,
-        y: 19.000,
+        y: 19.0,
         location: "Sosnowiec",
         category: "Park",
-        time: 1800
+        time: 1800,
     },
     {
         id: 4,
         name: "Camper & Camping Park",
         img: "https://cdn2.acsi.eu/6/5/7/e/657eb320d5a9c.jpg?impolicy=gallery-detail",
         x: 54.301,
-        y: 18.650,
+        y: 18.65,
         location: "Gdańsk",
         category: "Park",
-        time: 1800
+        time: 1800,
     },
     {
         id: 5,
-        name: "Miejskie Centrum Sportu i Rekreacji w Płońsku",
+        name: "Municipal Sports and Recreation Center in Płońsk",
         img: "https://ciechanow.cozadzien.pl/img/2020/04/30/_min/10e2c8dc13504108cd96a7ac5b14f8e2.jpg",
         x: 52.501,
-        y: 17.000,
+        y: 17.0,
         location: "Płońsk",
-        category: "Ośrodek zdrowia",
-        time: 3600
+        category: "Health center",
+        time: 3600,
     },
     {
         id: 6,
-        name: "Barlinecki Park Krajobrazowy",
+        name: "Barlinek Landscape Park",
         img: "https://www.zpkwz.pl/images/barlinecki_park_projekt.jpg",
         x: 52.001,
-        y: 15.000,
+        y: 15.0,
         location: "Barlinek",
         category: "Park",
-        time: 1800
+        time: 1800,
     },
     {
         id: 7,
         name: "Galeria Łódzka",
         img: "https://www.galeria-lodzka.pl/fileadmin/user_upload/TEST/Stage_images/GLL_photos/GL_STRONA_WWW_1920X1080_2.jpg",
         x: 51.701,
-        y: 19.500,
+        y: 19.5,
         location: "Łódź",
-        category: "Centrum handlowe",
-        time: 3600
+        category: "Shopping center",
+        time: 3600,
     },
     {
         id: 8,
         name: "Zegrzyńskie Lake Beach",
         img: "https://inmasovianstyle.com/wp-content/uploads/2022/07/nieporet_2021_1-1170x680-1-1170x680.jpg",
         x: 53.001,
-        y: 19.000,
+        y: 19.0,
         location: "Nieporęt",
-        category: "Kompleks pływacki",
-        time: 3600
+        category: "Swimming complex",
+        time: 3600,
     },
     {
         id: 9,
         name: "Star Paintball",
         img: "https://hydra.fit/cdn/shop/files/image_aa9199bd-0bd3-4461-9b77-af47c452d735_1024x1024.heic?v=1683040367",
         x: 53.251,
-        y: 15.000,
+        y: 15.0,
         location: "Szczecin",
         category: "Paintball center",
-        time: 5400
+        time: 5400,
     },
     {
         id: 10,
         name: "Plaza Rzeszów",
         img: "https://pliki.propertynews.pl/i/04/43/51/044351_r0_940.jpg",
         x: 50.001,
-        y: 22.000,
+        y: 22.0,
         location: "Rzeszów",
-        category: "Centrum handlowe",
-        time: 3600
+        category: "Shopping center",
+        time: 3600,
     },
     {
         id: 11,
         name: "Frangos Pizza & Burger House",
         img: "https://smacznego.moja-ostroleka.pl/libs/r.php?src=https://smacznego.moja-ostroleka.pl/uploads/smacznego/frangos/frangos_308.jpg&w=600",
         x: 53.071,
-        y: 21.580,
+        y: 21.58,
         location: "Ostrołęka",
-        category: "Restauracja",
-        time: 1800
+        category: "Restaurant",
+        time: 1800,
     },
     {
         id: 12,
         name: "Queen Mama",
         img: "https://d-art.ppstatic.pl/kadry/k/r/1/d4/70/5ef5ec75052b3_o_large.jpg",
         x: 51.201,
-        y: 22.600,
+        y: 22.6,
         location: "Lublin",
-        category: "Restauracja",
-        time: 1800
+        category: "Restaurant",
+        time: 1800,
     },
     {
         id: 13,
-        name: "Pomnik Czynu Powstańczego na Górze św. Anny",
+        name: "Monument of the Uprising Act on Mount St. Anna",
         img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Pomnik_Czynu_Powsta%C5%84czego.jpg",
         x: 50.501,
-        y: 18.200,
+        y: 18.2,
         location: "Lublin",
-        category: "Pomnik wojskowy",
-        time: 3600
+        category: "Military monument",
+        time: 3600,
     },
 ];
 
+const animationSettings = {
+    initial: {
+        width: 0,
+    },
+    animate: {
+        width: 400,
+        transition: {
+            duration: 0.5,
+            delay: 0.5,
+        },
+    },
+    exit: {
+        width: 0,
+        transition: {
+            duration: 0.5,
+        },
+    },
+};
+
 export default function App() {
-    const [modalSearch, setModalSearch] = useState(false);
+    const [openSearch, setOpenSearch] = useState(false);
     const [valueLocation, setValueLocation] = useState("");
     const [valueName, setValueName] = useState("");
-    const [dropdownVisible, setDropdownVisible] = useState(false);
-    const [selectedCategories, setSelectedCategories] = useState([]);
     const [zoomLocationX, setZoomLocationX] = useState(52.083);
     const [zoomLocationY, setZoomLocationY] = useState(19.375);
     const [selectedPosition, setSelectedPosition] = useState(null);
     const [openPlaceCard, setOpenPlaceCard] = useState(false);
     const [datesStorage, setDatesStorage] = useState({});
     const [openTrip, setOpenTrip] = useState(false);
-    const [showRoute, setShowRoute] = useState(false); 
-    const [transportMode, setTransportMode] = useState('car');
+    const [showRoute, setShowRoute] = useState(false);
+    const [transportMode, setTransportMode] = useState("car");
     const [routingControl, setRoutingControl] = useState(null);
     const [sortedDates, setSortedDates] = useState([]);
-    const [showRouteNavigation, setShowRouteNavigation] = useState(false);
     const [routeBlocked, setRouteBlocked] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const { isMobile } = useDeviceDetect();
+    const [dates, setDates] = useState([]);
 
-    const updateDatesStorage = (date, properties) => {
-        setDatesStorage(prevState => ({
+    const updateDatesStorage = (markerId, dates) => {
+        setDatesStorage((prevState) => ({
             ...prevState,
-            [date]: properties
+            [markerId]: dates,
         }));
     };
 
     return (
-        <div className="app">
-            <Navbar
-                modalSearch={modalSearch}
-                setModalSearch={setModalSearch} 
-                setOpenPlaceCard={setOpenPlaceCard}
-                openTrip={openTrip}
-                setOpenTrip={setOpenTrip}
-            />
-            <div className="sm:flex">
-                <Search
-                    modalSearch={modalSearch}
-                    positions={positions}
-                    valueLocation={valueLocation}
-                    valueName={valueName}
-                    setValueLocation={setValueLocation}
-                    setValueName={setValueName}
-                    dropdownVisible={dropdownVisible}
-                    setDropdownVisible={setDropdownVisible}
-                    selectedCategories={selectedCategories}
-                    setSelectedCategories={setSelectedCategories}
-                    setZoomLocationX={setZoomLocationX}
-                    setZoomLocationY={setZoomLocationY}
-                    selectedPosition={selectedPosition}
-                    setSelectedPosition={setSelectedPosition}
-                    openPlaceCard={openPlaceCard}
+        <div className="app flex flex-col h-svh">
+            <div className="flex-grow flex">
+                {!isMobile && (
+                    <Navbar
+                        openSearch={openSearch}
+                        setOpenSearch={setOpenSearch}
+                        setOpenPlaceCard={setOpenPlaceCard}
+                        openTrip={openTrip}
+                        setOpenTrip={setOpenTrip}
+                    />
+                )}
+                <AnimatePresence>
+                    {openSearch && (
+                        <motion.div
+                            key="search"
+                            className="search-container relative h-full md:h-screen z-[1001] md:z-0"
+                            variants={animationSettings}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                        >
+                            <Search
+                                positions={positions}
+                                valueLocation={valueLocation}
+                                valueName={valueName}
+                                setValueLocation={setValueLocation}
+                                setValueName={setValueName}
+                                setZoomLocationX={setZoomLocationX}
+                                setZoomLocationY={setZoomLocationY}
+                                selectedPosition={selectedPosition}
+                                setSelectedPosition={setSelectedPosition}
+                                openPlaceCard={openPlaceCard}
+                                setOpenPlaceCard={setOpenPlaceCard}
+                                datesStorage={datesStorage}
+                                updateDatesStorage={updateDatesStorage}
+                            />
+                            {openPlaceCard && (
+                                <PlaceCard
+                                    positions={positions}
+                                    selectedPosition={selectedPosition}
+                                    setOpenPlaceCard={setOpenPlaceCard}
+                                    datesStorage={datesStorage}
+                                    updateDatesStorage={updateDatesStorage}
+                                    setRouteBlocked={setRouteBlocked}
+                                    dates={dates}
+                                    setDates={setDates}
+                                />
+                            )}
+                        </motion.div>
+                    )}
+                    {openTrip && (
+                        <motion.div
+                            key="trip"
+                            className="trip-container relative h-full md:h-screen z-[1001] md:z-0"
+                            variants={animationSettings}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                        >
+                            <Trip
+                                positions={positions}
+                                datesStorage={datesStorage}
+                                showRoute={showRoute}
+                                setShowRoute={setShowRoute}
+                                routingControl={routingControl}
+                                setRoutingControl={setRoutingControl}
+                                transportMode={transportMode}
+                                setTransportMode={setTransportMode}
+                                setDatesStorage={setDatesStorage}
+                                sortedDates={sortedDates}
+                                setSortedDates={setSortedDates}
+                                routeBlocked={routeBlocked}
+                                setRouteBlocked={setRouteBlocked}
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+                <div className="md:relative flex-grow h-full">
+                    <Map
+                        setOpenSearch={setOpenSearch}
+                        positions={positions}
+                        zoomLocationX={zoomLocationX}
+                        zoomLocationY={zoomLocationY}
+                        setZoomLocationX={setZoomLocationX}
+                        setZoomLocationY={setZoomLocationY}
+                        setSelectedPosition={setSelectedPosition}
+                        setOpenPlaceCard={setOpenPlaceCard}
+                        setOpenTrip={setOpenTrip}
+                    />
+                    <DarkModeBtn />
+                </div>
+            </div>
+            {isMobile && (
+                <Navbar
+                    openSearch={openSearch}
+                    setOpenSearch={setOpenSearch}
                     setOpenPlaceCard={setOpenPlaceCard}
-                    datesStorage={datesStorage}
-                    updateDatesStorage={updateDatesStorage}
-                />
-                {
-                    openPlaceCard ? (
-                        <PlaceCard
-                            positions={positions}
-                            selectedPosition={selectedPosition}
-                            setOpenPlaceCard={setOpenPlaceCard}
-                            datesStorage={datesStorage}
-                            updateDatesStorage={updateDatesStorage}
-                            setRouteBlocked={setRouteBlocked}
-                        />
-                    )
-                    : null
-                }
-                {
-                    openTrip ? (
-                        <Trip
-                            positions={positions}
-                            datesStorage={datesStorage}
-                            showRoute={showRoute}
-                            setShowRoute={setShowRoute}
-                            routingControl={routingControl}
-                            setRoutingControl={setRoutingControl}
-                            transportMode={transportMode}
-                            setTransportMode={setTransportMode}
-                            setDatesStorage={setDatesStorage}
-                            updateDatesStorage={updateDatesStorage}
-                            sortedDates={sortedDates}
-                            setSortedDates={setSortedDates}
-                            showRouteNavigation={showRouteNavigation}
-                            setShowRouteNavigation={setShowRouteNavigation}
-                            routeBlocked={routeBlocked}
-                            setRouteBlocked={setRouteBlocked}
-                        />
-                    )
-                    : null
-                }
-                <Map
-                    setModalSearch={setModalSearch}
-                    positions={positions}
-                    zoomLocationX={zoomLocationX}
-                    zoomLocationY={zoomLocationY}
-                    setZoomLocationX={setZoomLocationX}
-                    setZoomLocationY={setZoomLocationY}
-                    setSelectedPosition={setSelectedPosition}
-                    setOpenPlaceCard={setOpenPlaceCard}
+                    openTrip={openTrip}
                     setOpenTrip={setOpenTrip}
                 />
-                <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} />
-            </div>
+            )}
         </div>
-    )
+    );
 }

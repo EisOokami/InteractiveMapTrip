@@ -1,27 +1,4 @@
-.leaflet-container {
-    width: 100vw;
-    height: calc(100vh - 60px);
-}
-
-@media only screen and (max-width: 639px) {
-    .leaflet-container {
-        height: 100vh;
-    }
-}
-
-@media only screen and (max-width: 767px) and (min-width: 640px) {
-    .leaflet-container {
-        height: calc(100vh - 40px);
-    }
-}
-
-@media only screen and (max-width: 1023px) and (min-width: 768px) {
-    .leaflet-container {
-        height: calc(100vh - 50px);
-    }
-}
-
-.leaflet-routing-alt  {
+.leaflet-routing-alt {
     h2 {
         font-size: 18px;
         font-weight: 800;
@@ -38,15 +15,77 @@
     font-size: 14px;
 }
 
-@media only screen and (max-width: 639px) {
-    .leaflet-control-layers {
-        top: 30px;
-    }
-}
-
 .leaflet-routing-collapse-btn {
     top: -8px;
     right: 20px;
     color: #ff0000;
     font-size: 40px;
+}
+
+.leaflet-container {
+    height: 100%;
+}
+
+.leaflet-control-zoom {
+    border: none !important;
+
+    a {
+        border: none !important;
+        transition-property: color, background-color, border-color,
+            text-decoration-color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 700ms;
+
+        &:first-child {
+            border-top-left-radius: 10px !important;
+            border-top-right-radius: 10px !important;
+        }
+
+        &:last-child {
+            border-bottom-left-radius: 10px !important;
+            border-bottom-right-radius: 10px !important;
+        }
+    }
+}
+
+.dark .leaflet-control-zoom a {
+    color: #fff;
+    background-color: #19191e;
+}
+
+.leaflet-control-layers {
+    border: none !important;
+    border-radius: 10px;
+    cursor: pointer;
+
+    a {
+        border-radius: 10px;
+        transition-property: color, background-color, border-color,
+            text-decoration-color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 700ms;
+    }
+
+    section label {
+        cursor: pointer;
+    }
+}
+
+.dark .leaflet-control-layers,
+.dark .leaflet-control-layers-expanded {
+    color: #fff;
+    background-color: #19191e;
+    cursor: pointer;
+
+    a {
+        background-color: #19191e;
+    }
+}
+
+.dark .dark-leaflet-layer {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+.leaflet-attribution-flag {
+    display: inline;
 }
