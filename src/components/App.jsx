@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import useDeviceDetect from "../hooks/useDeviceDetect";
 import Map from "./map/Map";
 import Navbar from "./navbar/Navbar";
 import Search from "./search/Search";
@@ -175,7 +174,6 @@ export default function App() {
     const [routingControl, setRoutingControl] = useState(null);
     const [sortedDates, setSortedDates] = useState([]);
     const [routeBlocked, setRouteBlocked] = useState(false);
-    const { isMobile } = useDeviceDetect();
     const [dates, setDates] = useState([]);
 
     const updateDatesStorage = (markerId, dates) => {
@@ -188,7 +186,7 @@ export default function App() {
     return (
         <div className="app flex flex-col h-svh">
             <div className="flex-grow flex">
-                {!isMobile && (
+                <div className="hidden md:flex">
                     <Navbar
                         openSearch={openSearch}
                         setOpenSearch={setOpenSearch}
@@ -196,7 +194,7 @@ export default function App() {
                         openTrip={openTrip}
                         setOpenTrip={setOpenTrip}
                     />
-                )}
+                </div>
                 <AnimatePresence>
                     {openSearch && (
                         <motion.div
@@ -278,7 +276,7 @@ export default function App() {
                     <DarkModeBtn />
                 </div>
             </div>
-            {isMobile && (
+            <div className="md:hidden">
                 <Navbar
                     openSearch={openSearch}
                     setOpenSearch={setOpenSearch}
@@ -286,7 +284,7 @@ export default function App() {
                     openTrip={openTrip}
                     setOpenTrip={setOpenTrip}
                 />
-            )}
+            </div>
         </div>
     );
 }
