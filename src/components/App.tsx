@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import "../style/index.scss";
 import L from "leaflet";
-import { IDates, IDatesStorage, ISortedDates } from "../interfaces/interface";
+import "../style/index.scss";
+import { fetchPositions } from "../services/firebaseDatabase";
+import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../services/firebaseConfig";
+import {
+    IDates,
+    IDatesStorage,
+    IPositions,
+    ISortedDates,
+} from "../interfaces/interface";
 
 import Map from "./map/Map";
 import Navbar from "./navbar/Navbar";
@@ -10,139 +18,6 @@ import Search from "./search/Search";
 import PlaceCard from "./placeCard/PlaceCard";
 import Trip from "./trip/Trip";
 import DarkModeBtn from "./ui/darkModeBtn/DarkModeBtn";
-
-const positions = [
-    {
-        id: 1,
-        name: "Sky Tower",
-        img: "https://ocdn.eu/pulscms/MDA_/f3c0e553ba7b0bcdbc01e4d6d372945e.jpg",
-        x: 51.0945,
-        y: 17.0197,
-        location: "Wrocław",
-        category: "Shopping center",
-        time: 3600,
-    },
-    {
-        id: 2,
-        name: "Antalya Kebab u Bogusi",
-        img: "https://d-art.ppstatic.pl/kadry/k/r/1/22/1e/65c0e1f838515_o_full.jpg",
-        x: 50.551,
-        y: 18.0,
-        location: "Opole",
-        category: "Restaurant",
-        time: 1800,
-    },
-    {
-        id: 3,
-        name: "Zagłębiowski Park Sportowy - ArcelorMittal Park",
-        img: "https://lh5.googleusercontent.com/proxy/RfFucqcqYCBiq_-rsoPjGje67Cy9R1Zmtkkdp6dbq0ajWAjKj3iTu-T0dfSQGQvIpXwd39FVrJG14EcAFqKI7uG77jUezUOzodPpTDN8MUdHOH_BIzUthZ-4aN947xS6W0-BUGv8vxoDZdWoGu1WAN6BjOKoW1c-",
-        x: 50.201,
-        y: 19.0,
-        location: "Sosnowiec",
-        category: "Park",
-        time: 1800,
-    },
-    {
-        id: 4,
-        name: "Camper & Camping Park",
-        img: "https://cdn2.acsi.eu/6/5/7/e/657eb320d5a9c.jpg?impolicy=gallery-detail",
-        x: 54.301,
-        y: 18.65,
-        location: "Gdańsk",
-        category: "Park",
-        time: 1800,
-    },
-    {
-        id: 5,
-        name: "Municipal Sports and Recreation Center in Płońsk",
-        img: "https://ciechanow.cozadzien.pl/img/2020/04/30/_min/10e2c8dc13504108cd96a7ac5b14f8e2.jpg",
-        x: 52.501,
-        y: 17.0,
-        location: "Płońsk",
-        category: "Health center",
-        time: 3600,
-    },
-    {
-        id: 6,
-        name: "Barlinek Landscape Park",
-        img: "https://www.zpkwz.pl/images/barlinecki_park_projekt.jpg",
-        x: 52.001,
-        y: 15.0,
-        location: "Barlinek",
-        category: "Park",
-        time: 1800,
-    },
-    {
-        id: 7,
-        name: "Galeria Łódzka",
-        img: "https://www.galeria-lodzka.pl/fileadmin/user_upload/TEST/Stage_images/GLL_photos/GL_STRONA_WWW_1920X1080_2.jpg",
-        x: 51.701,
-        y: 19.5,
-        location: "Łódź",
-        category: "Shopping center",
-        time: 3600,
-    },
-    {
-        id: 8,
-        name: "Zegrzyńskie Lake Beach",
-        img: "https://inmasovianstyle.com/wp-content/uploads/2022/07/nieporet_2021_1-1170x680-1-1170x680.jpg",
-        x: 53.001,
-        y: 19.0,
-        location: "Nieporęt",
-        category: "Swimming complex",
-        time: 3600,
-    },
-    {
-        id: 9,
-        name: "Star Paintball",
-        img: "https://hydra.fit/cdn/shop/files/image_aa9199bd-0bd3-4461-9b77-af47c452d735_1024x1024.heic?v=1683040367",
-        x: 53.251,
-        y: 15.0,
-        location: "Szczecin",
-        category: "Paintball center",
-        time: 5400,
-    },
-    {
-        id: 10,
-        name: "Plaza Rzeszów",
-        img: "https://pliki.propertynews.pl/i/04/43/51/044351_r0_940.jpg",
-        x: 50.001,
-        y: 22.0,
-        location: "Rzeszów",
-        category: "Shopping center",
-        time: 3600,
-    },
-    {
-        id: 11,
-        name: "Frangos Pizza & Burger House",
-        img: "https://smacznego.moja-ostroleka.pl/libs/r.php?src=https://smacznego.moja-ostroleka.pl/uploads/smacznego/frangos/frangos_308.jpg&w=600",
-        x: 53.071,
-        y: 21.58,
-        location: "Ostrołęka",
-        category: "Restaurant",
-        time: 1800,
-    },
-    {
-        id: 12,
-        name: "Queen Mama",
-        img: "https://d-art.ppstatic.pl/kadry/k/r/1/d4/70/5ef5ec75052b3_o_large.jpg",
-        x: 51.201,
-        y: 22.6,
-        location: "Lublin",
-        category: "Restaurant",
-        time: 1800,
-    },
-    {
-        id: 13,
-        name: "Monument of the Uprising Act on Mount St. Anna",
-        img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Pomnik_Czynu_Powsta%C5%84czego.jpg",
-        x: 50.501,
-        y: 18.2,
-        location: "Lublin",
-        category: "Military monument",
-        time: 3600,
-    },
-];
 
 const animationSettings = {
     initial: {
@@ -182,6 +57,33 @@ export default function App() {
     const [sortedDates, setSortedDates] = useState<ISortedDates[]>([]);
     const [routeBlocked, setRouteBlocked] = useState<boolean>(false);
     const [dates, setDates] = useState<IDates[]>([]);
+    const [positions, setPositions] = useState<IPositions[]>([]);
+    const [isPositionLoading, setIsPositionLoading] = useState<boolean>(true);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+    useEffect(() => {
+        fetchPositions(setPositions, setIsPositionLoading);
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setIsAuthenticated(true);
+            } else {
+                signInAnonymously(auth)
+                    .then(() => {
+                        setIsAuthenticated(true);
+                    })
+                    .catch((error) => {
+                        console.error(error.message);
+                    });
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
     const updateDatesStorage = (markerId: number, dates: IDates[]) => {
         setDatesStorage((prevState) => ({
@@ -189,6 +91,40 @@ export default function App() {
             [markerId]: dates,
         }));
     };
+
+    if (isPositionLoading) {
+        return (
+            <div className="flex flex-col justify-center items-center w-screen h-screen">
+                {/* <img
+                    src="images/catastronaut.png"
+                    alt="cat astronaut"
+                    className="w-1/6"
+                /> */}
+                <div className="grid justify-items-center gap-5">
+                    <h3 className="text-4xl">Loading...</h3>
+                    <h3 className="text-2xl">
+                        Fetching positions from the database
+                    </h3>
+                </div>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <div className="flex flex-col justify-center items-center w-screen h-screen">
+                {/* <img
+                    src="images/catastronaut.png"
+                    alt="cat astronaut"
+                    className="w-1/6"
+                /> */}
+                <div className="grid justify-items-center gap-5">
+                    <h3 className="text-4xl">Loading...</h3>
+                    <h3 className="text-2xl">You are signing in as a Guest</h3>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="app flex flex-col h-svh">
