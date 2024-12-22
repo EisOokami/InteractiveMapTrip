@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { IPositions } from "../../interfaces/search/interface";
 
@@ -66,7 +65,7 @@ export default function Search({
     );
 
     return (
-        <div className="search absolute flex flex-col w-screen md:w-full h-full px-3 bg-white dark:bg-second-black z-[1001] transition-colors duration-700">
+        <div className="search absolute flex flex-col w-screen md:w-full h-full px-3 bg-white dark:bg-second-black z-[1001] transition">
             <h1 className="mt-5 dark:text-white text-2xl sm:text-3xl font-bold">
                 Search
             </h1>
@@ -83,23 +82,19 @@ export default function Search({
                 onChange={handleChangeName}
             />
             <div className="relative">
-                <motion.input
+                <input
                     onClick={handleDropdownToggle}
                     className="btn-category_search"
                     type="button"
                     value="Select category"
-                    whileTap={{ scale: 0.85 }}
                 />
 
                 {dropdownVisible && (
-                    <div className="absolute w-full mt-2 bg-white dark:bg-second-black rounded-lg shadow border z-10 transition-colors duration-700">
+                    <div className="absolute top-11 w-full mt-2 bg-white dark:bg-second-black rounded-lg shadow border z-10 transition">
                         <ul className="p-3 space-y-1 text-sm">
                             {uniqueCategories.map((category, key) => (
                                 <li key={key}>
-                                    <motion.div
-                                        className="flex items-center p-2 rounded hover:bg-gray-100 hover:dark:bg-gray-900 transition-colors duration-700"
-                                        whileTap={{ scale: 0.85 }}
-                                    >
+                                    <div className="flex items-center p-2 rounded hover:bg-gray-100 hover:dark:bg-gray-900 transition">
                                         <input
                                             id={`checkbox-item-${key}`}
                                             type="checkbox"
@@ -114,18 +109,17 @@ export default function Search({
                                         />
                                         <label
                                             htmlFor={`checkbox-item-${key}`}
-                                            className="w-full ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 rounded transition-colors duration-700"
+                                            className="w-full ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 rounded transition"
                                         >
                                             {category}
                                         </label>
-                                    </motion.div>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
                     </div>
                 )}
             </div>
-
             <div className="card-search grid justify-items-center mt-3 p-2 rounded overflow-x-hidden overflow-y-scroll">
                 {filteredPositions.map((elem) => (
                     <a
@@ -142,13 +136,13 @@ export default function Search({
                             alt={elem.name}
                         />
                         <div className="p-4">
-                            <h5 className="tracking-tight text-gray-900 dark:text-gray-100 font-bold  transition-colors duration-700">
+                            <h5 className="tracking-tight text-gray-900 dark:text-gray-100 font-bold">
                                 {elem.name}
                             </h5>
-                            <p className="mt-2 text-gray-700 dark:text-gray-300 text-sm font-normal transition-colors duration-700">
+                            <p className="mt-2 text-gray-700 dark:text-gray-300 text-sm font-normal transition">
                                 {elem.category}
                             </p>
-                            <p className="dark:text-white text-sm italic font-normal transition-colors duration-700">
+                            <p className="dark:text-white text-sm italic font-normal transition">
                                 {elem.location}
                             </p>
                         </div>

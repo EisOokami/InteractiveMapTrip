@@ -1,5 +1,4 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { motion } from "framer-motion";
 import { MdDirectionsBike, MdError } from "react-icons/md";
 import { FaCar, FaWalking, FaInfoCircle } from "react-icons/fa";
 import L from "leaflet";
@@ -13,17 +12,6 @@ import {
 } from "../../interfaces/trip/interface";
 import PlaceCardForNavigation from "./placeCardForNavigation/PlaceCardForNavigation";
 import RouteInfo from "./routeInfo/RouteInfo";
-
-const animationVariants = {
-    whileHover: {
-        scale: 1.1,
-        transition: { duration: 0.1 },
-    },
-    whileTap: {
-        scale: 0.85,
-        transition: { duration: 0.1 },
-    },
-};
 
 interface TripProps {
     positions: IPositions[];
@@ -204,50 +192,44 @@ export default function Trip({
     };
 
     return (
-        <div className="trip absolute flex flex-col w-screen md:w-full h-full pt-6 px-3 bg-white dark:bg-second-black z-[1999] transition-colors duration-700">
+        <div className="trip absolute flex flex-col w-screen md:w-full h-full pt-6 px-3 bg-white dark:bg-second-black z-[1999] transition">
             <h1 className="mb-3 dark:text-white text-2xl sm:text-3xl font-bold">
                 Trip Plan
             </h1>
             <div className="transport-modes grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-4">
-                <motion.button
+                <button
                     type="button"
                     className={`btn-global ${
                         transportMode === "car" ? "bg-blue-800" : ""
                     }`}
                     onClick={() => setTransportMode("car")}
-                    variants={animationVariants}
-                    whileTap="whileTap"
                 >
                     <FaCar />
-                </motion.button>
-                <motion.button
+                </button>
+                <button
                     type="button"
                     className={`btn-global ${
                         transportMode === "bike" ? "bg-blue-800" : ""
                     }`}
                     onClick={() => setTransportMode("bike")}
-                    variants={animationVariants}
-                    whileTap="whileTap"
                 >
                     <MdDirectionsBike />
-                </motion.button>
-                <motion.button
+                </button>
+                <button
                     type="button"
                     className={`btn-global ${
                         transportMode === "walk" ? "bg-blue-800" : ""
                     }`}
                     onClick={() => setTransportMode("walk")}
-                    variants={animationVariants}
-                    whileTap="whileTap"
                 >
                     <FaWalking />
-                </motion.button>
+                </button>
             </div>
             <div className="cards-place grid justify-items-center overflow-x-hidden overflow-y-scroll">
                 {sortedDates.length ? (
                     sortedDates.map(({ date, places }, index) => (
                         <div key={index}>
-                            <h2 className="mb-2 dark:text-white text-xl font-semibold transition-colors duration-700">
+                            <h2 className="mb-2 dark:text-white text-xl font-semibold transition">
                                 {date}
                             </h2>
                             {places.map((place, index) => (
@@ -267,18 +249,16 @@ export default function Trip({
                                 </div>
                             ))}
                             <div className="btn-navigation flex mt-3">
-                                <motion.button
+                                <button
                                     type="button"
                                     className="btn-global"
                                     onClick={() =>
                                         handleNavigation(places, date)
                                     }
                                     disabled={routeBlocked}
-                                    variants={animationVariants}
-                                    whileTap="whileTap"
                                 >
                                     Navigation
-                                </motion.button>
+                                </button>
                                 {routeBlocked ? (
                                     <p className="msg-info_trip">
                                         <MdError className="text-red-500 text-2xl" />
@@ -296,7 +276,7 @@ export default function Trip({
                     ))
                 ) : (
                     <div className="date-section mb-4">
-                        <h1 className="mb-2 dark:text-white text-2xl font-semibold transition-colors duration-700">
+                        <h1 className="mb-2 dark:text-white text-2xl font-semibold transition">
                             Add places for the trip
                         </h1>
                     </div>
