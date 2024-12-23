@@ -1,5 +1,5 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { MdDirectionsBike, MdError } from "react-icons/md";
+import { MdDirectionsBike } from "react-icons/md";
 import { FaCar, FaWalking, FaInfoCircle } from "react-icons/fa";
 import L from "leaflet";
 import "leaflet-routing-machine";
@@ -25,8 +25,6 @@ interface TripProps {
     setTransportMode: Dispatch<SetStateAction<string>>;
     sortedDates: ISortedDates[];
     setSortedDates: Dispatch<SetStateAction<ISortedDates[]>>;
-    routeBlocked: boolean;
-    setRouteBlocked: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Trip({
@@ -40,8 +38,6 @@ export default function Trip({
     setTransportMode,
     sortedDates,
     setSortedDates,
-    routeBlocked,
-    setRouteBlocked,
 }: TripProps) {
     const [isRoute, setIsRoute] = useState<string | null>(null);
     const [routeSegments, setRouteSegments] = useState<IRouteSegments[]>([]);
@@ -81,7 +77,6 @@ export default function Trip({
     const handleNavigation = async (places: IPositions[], date: string) => {
         setIsRoute(null);
         setRouteSegments([]);
-        setRouteBlocked(false);
 
         if (showRoute && routingControl) {
             routingControl.remove();
@@ -124,16 +119,6 @@ export default function Trip({
                 2,
             );
             const totalTime = (route.summary.totalTime / 3600).toFixed(2);
-            const currentTime =
-                new Date().getHours() + Number("0." + new Date().getMinutes());
-
-            if (parseFloat(totalTime) + currentTime > 24) {
-                setRouteBlocked(true);
-                newRoutingControl.remove();
-                setRoutingControl(null);
-                setShowRoute(false);
-                return false;
-            }
 
             let distanceInstructions = 0;
             let timeInstructions = 0;
@@ -167,17 +152,13 @@ export default function Trip({
             );
             resultTimeInstructions.push(convertTime(timeInstructions));
 
-            console.log(resultDistanceInstructions);
-
             setRouteTime(resultTimeInstructions);
             setRouteDistance(resultDistanceInstructions);
             setRouteSegments([{ distance: totalDistance, time: totalTime }]);
             setShowRoute(true);
         });
 
-        if (!routeBlocked) {
-            await newRoutingControl.addTo(window.map);
-        }
+        await newRoutingControl.addTo(window.map);
 
         setIsRoute(date);
 
@@ -256,22 +237,15 @@ export default function Trip({
                                     onClick={() =>
                                         handleNavigation(places, date)
                                     }
-                                    disabled={routeBlocked}
                                 >
                                     Navigation
                                 </button>
-                                {routeBlocked ? (
-                                    <p className="msg-info_trip">
-                                        <MdError className="text-red-500 text-2xl" />
-                                        Route exceeds the 24-hour time limit
-                                    </p>
-                                ) : null}
-                                {isRoute === date && !routeBlocked ? (
+                                {isRoute === date && (
                                     <p className="msg-info_trip">
                                         <FaInfoCircle className="text-blue-800 text-2xl" />
                                         Route has been planned
                                     </p>
-                                ) : null}
+                                )}
                             </div>
                         </div>
                     ))

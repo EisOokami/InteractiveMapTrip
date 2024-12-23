@@ -54,7 +54,6 @@ export default function MapPage() {
     const [routingControl, setRoutingControl] =
         useState<L.Routing.Control | null>(null);
     const [sortedDates, setSortedDates] = useState<ISortedDates[]>([]);
-    const [routeBlocked, setRouteBlocked] = useState<boolean>(false);
     const [dates, setDates] = useState<IDates[]>([]);
     const [positions, setPositions] = useState<IPositions[]>([]);
     const [isPositionLoading, setIsPositionLoading] = useState<boolean>(true);
@@ -94,11 +93,6 @@ export default function MapPage() {
     if (isPositionLoading) {
         return (
             <div className="flex flex-col justify-center items-center w-screen h-screen">
-                {/* <img
-                    src="images/catastronaut.png"
-                    alt="cat astronaut"
-                    className="w-1/6"
-                /> */}
                 <div className="grid justify-items-center gap-5">
                     <h3 className="text-4xl">Loading...</h3>
                     <h3 className="text-2xl">
@@ -112,11 +106,6 @@ export default function MapPage() {
     if (!isAuthenticated) {
         return (
             <div className="flex flex-col justify-center items-center w-screen h-screen">
-                {/* <img
-                    src="images/catastronaut.png"
-                    alt="cat astronaut"
-                    className="w-1/6"
-                /> */}
                 <div className="grid justify-items-center gap-5">
                     <h3 className="text-4xl">Loading...</h3>
                     <h3 className="text-2xl">You are signing in as a Guest</h3>
@@ -165,7 +154,6 @@ export default function MapPage() {
                                     setOpenPlaceCard={setOpenPlaceCard}
                                     datesStorage={datesStorage}
                                     updateDatesStorage={updateDatesStorage}
-                                    setRouteBlocked={setRouteBlocked}
                                     dates={dates}
                                     setDates={setDates}
                                 />
@@ -192,8 +180,6 @@ export default function MapPage() {
                                 setTransportMode={setTransportMode}
                                 sortedDates={sortedDates}
                                 setSortedDates={setSortedDates}
-                                routeBlocked={routeBlocked}
-                                setRouteBlocked={setRouteBlocked}
                             />
                         </motion.div>
                     )}

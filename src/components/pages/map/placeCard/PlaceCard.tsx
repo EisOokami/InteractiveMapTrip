@@ -14,7 +14,6 @@ interface PlaceCardProps {
     setOpenPlaceCard: Dispatch<SetStateAction<boolean>>;
     datesStorage: IDatesStorage;
     updateDatesStorage: (markerId: number, dates: IDates[]) => void;
-    setRouteBlocked: Dispatch<SetStateAction<boolean>>;
     dates: IDates[];
     setDates: Dispatch<SetStateAction<IDates[]>>;
 }
@@ -25,7 +24,6 @@ export default function PlaceCard({
     setOpenPlaceCard,
     datesStorage,
     updateDatesStorage,
-    setRouteBlocked,
     dates,
     setDates,
 }: PlaceCardProps) {
@@ -77,7 +75,6 @@ export default function PlaceCard({
 
         setDates(updatedDates);
         updateDatesStorage(positionId, updatedDates);
-        setRouteBlocked(false);
     };
 
     useEffect(() => {
