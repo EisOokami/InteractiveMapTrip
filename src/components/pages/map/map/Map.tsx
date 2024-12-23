@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import {
     LayersControl,
     MapContainer,
@@ -8,12 +9,25 @@ import {
 } from "react-leaflet";
 import { Icon } from "leaflet";
 import "./Map.scss";
+import { IPositions } from "../../../../interfaces/map/interface";
 
-function ChangeView({ center }) {
+function ChangeView({ center }: { center: [number, number] }) {
     const map = useMap();
     map.setView(center);
     window.map = map;
     return null;
+}
+
+interface MapProps {
+    setOpenSearch: Dispatch<SetStateAction<boolean>>;
+    positions: IPositions[];
+    zoomLocationX: number;
+    zoomLocationY: number;
+    setZoomLocationX: Dispatch<SetStateAction<number>>;
+    setZoomLocationY: Dispatch<SetStateAction<number>>;
+    setSelectedPosition: Dispatch<SetStateAction<number | null>>;
+    setOpenPlaceCard: Dispatch<SetStateAction<boolean>>;
+    setOpenTrip: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Map({
@@ -26,8 +40,8 @@ export default function Map({
     setSelectedPosition,
     setOpenPlaceCard,
     setOpenTrip,
-}) {
-    const handleZoomLocation = (x, y, key) => {
+}: MapProps) {
+    const handleZoomLocation = (x: number, y: number, key: number) => {
         setOpenSearch(true);
         setOpenPlaceCard(true);
         setOpenTrip(false);

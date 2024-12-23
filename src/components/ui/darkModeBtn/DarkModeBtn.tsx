@@ -19,7 +19,7 @@ export default function DarkModeBtn() {
 
     return (
         <div
-            className="absolute top-20 left-2 p-2 dark:text-white text-xl bg-white dark:bg-second-gray rounded-lg z-[999] cursor-pointer transition-colors duration-700"
+            className="absolute top-20 left-2 p-2 dark:text-white text-xl bg-white dark:bg-second-gray rounded-lg z-[999] cursor-pointer transition"
             onClick={() =>
                 setHandleDarkMode(handleDarkMode === "true" ? "false" : "true")
             }
