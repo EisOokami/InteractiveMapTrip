@@ -6,7 +6,7 @@ import {
     IDates,
     IDatesStorage,
     IPositions,
-} from "../../interfaces/placeCard/interface";
+} from "../../../../interfaces/placeCard/interface";
 
 interface PlaceCardProps {
     positions: IPositions[];

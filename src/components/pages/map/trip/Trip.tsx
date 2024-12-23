@@ -9,7 +9,8 @@ import {
     IPositions,
     IRouteSegments,
     ISortedDates,
-} from "../../interfaces/trip/interface";
+} from "../../../../interfaces/trip/interface";
+
 import PlaceCardForNavigation from "./placeCardForNavigation/PlaceCardForNavigation";
 import RouteInfo from "./routeInfo/RouteInfo";
 

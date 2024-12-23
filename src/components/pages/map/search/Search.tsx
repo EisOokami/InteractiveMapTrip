@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { IPositions } from "../../interfaces/search/interface";
+import { IPositions } from "../../../../interfaces/search/interface";
 
 interface SearchProps {
     positions: IPositions[];

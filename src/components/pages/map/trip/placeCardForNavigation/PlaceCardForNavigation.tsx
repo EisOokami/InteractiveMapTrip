@@ -1,4 +1,4 @@
-import { IPositions } from "../../../interfaces/trip/interface";
+import { IPositions } from "../../../../../interfaces/trip/interface";
 
 interface PlaceCardForNavigationProps {
     place: IPositions;
