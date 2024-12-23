@@ -60,10 +60,6 @@ export default function MapPage() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
-        fetchPositions(setPositions, setIsPositionLoading);
-    }, []);
-
-    useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setIsAuthenticated(true);
@@ -82,6 +78,12 @@ export default function MapPage() {
             unsubscribe();
         };
     }, []);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetchPositions(setPositions, setIsPositionLoading);
+        }
+    }, [isAuthenticated]);
 
     const updateDatesStorage = (markerId: number, dates: IDates[]) => {
         setDatesStorage((prevState) => ({
