@@ -43,6 +43,8 @@ export default function Trip({
     const [routeSegments, setRouteSegments] = useState<IRouteSegments[]>([]);
     const [routeTime, setRouteTime] = useState<string[]>([]);
     const [routeDistance, setRouteDistance] = useState<string[]>([]);
+    const [isNavigationDisabled, setIsNavigationDisabled] =
+        useState<boolean>(false);
 
     useEffect(() => {
         const datesMap: IDatesMap = {};
@@ -75,6 +77,7 @@ export default function Trip({
     }, [datesStorage, positions, setSortedDates]);
 
     const handleNavigation = async (places: IPositions[], date: string) => {
+        setIsNavigationDisabled(true);
         setIsRoute(null);
         setRouteSegments([]);
 
@@ -82,6 +85,7 @@ export default function Trip({
             routingControl.remove();
             setRoutingControl(null);
             setShowRoute(false);
+            setIsNavigationDisabled(false);
             return;
         }
 
@@ -156,6 +160,7 @@ export default function Trip({
             setRouteDistance(resultDistanceInstructions);
             setRouteSegments([{ distance: totalDistance, time: totalTime }]);
             setShowRoute(true);
+            setIsNavigationDisabled(false);
         });
 
         await newRoutingControl.addTo(window.map);
@@ -237,6 +242,7 @@ export default function Trip({
                                     onClick={() =>
                                         handleNavigation(places, date)
                                     }
+                                    disabled={isNavigationDisabled}
                                 >
                                     Navigation
                                 </button>
