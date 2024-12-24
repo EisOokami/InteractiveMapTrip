@@ -1,4 +1,10 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+    ChangeEvent,
+    Dispatch,
+    SetStateAction,
+    useCallback,
+    useState,
+} from "react";
 import { IPositions } from "../../../../interfaces/search/interface";
 
 interface SearchProps {
@@ -27,32 +33,46 @@ export default function Search({
     const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-    const handleChangeLocation = (e: ChangeEvent<HTMLInputElement>) => {
-        setValueLocation(e.target.value.toLowerCase());
-    };
+    const handleChangeLocation = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            setValueLocation(e.target.value.toLowerCase());
+        },
+        [setValueLocation],
+    );
 
-    const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-        setValueName(e.target.value.toLowerCase());
-    };
+    const handleChangeName = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            setValueName(e.target.value.toLowerCase());
+        },
+        [setValueName],
+    );
 
-    const handleDropdownToggle = () => {
+    const handleDropdownToggle = useCallback(() => {
         setDropdownVisible(!dropdownVisible);
-    };
+    }, [setDropdownVisible, dropdownVisible]);
 
-    const handleCategoryChange = (category: string) => {
+    const handleCategoryChange = useCallback((category: string) => {
         setSelectedCategories((prevSelected) =>
             prevSelected.includes(category)
                 ? prevSelected.filter((cat) => cat !== category)
                 : [...prevSelected, category],
         );
-    };
+    }, []);
 
-    const handleZoomLocation = (x: number, y: number, key: number) => {
-        setZoomLocationX(x);
-        setZoomLocationY(y);
-        setSelectedPosition(key);
-        setOpenPlaceCard(true);
-    };
+    const handleZoomLocation = useCallback(
+        (x: number, y: number, key: number) => {
+            setZoomLocationX(x);
+            setZoomLocationY(y);
+            setSelectedPosition(key);
+            setOpenPlaceCard(true);
+        },
+        [
+            setZoomLocationX,
+            setZoomLocationY,
+            setSelectedPosition,
+            setOpenPlaceCard,
+        ],
+    );
 
     const uniqueCategories = [...new Set(positions.map((pos) => pos.category))];
 

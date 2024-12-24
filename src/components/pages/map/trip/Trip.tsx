@@ -1,4 +1,10 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import {
+    useState,
+    useEffect,
+    Dispatch,
+    SetStateAction,
+    useCallback,
+} from "react";
 import { MdDirectionsBike } from "react-icons/md";
 import { FaCar, FaWalking, FaInfoCircle } from "react-icons/fa";
 import L from "leaflet";
@@ -76,100 +82,111 @@ export default function Trip({
         setSortedDates(sortedDatesArray);
     }, [datesStorage, positions, setSortedDates]);
 
-    const handleNavigation = async (places: IPositions[], date: string) => {
-        setIsNavigationDisabled(true);
-        setIsRoute(null);
-        setRouteSegments([]);
+    const handleNavigation = useCallback(
+        async (places: IPositions[], date: string) => {
+            setIsNavigationDisabled(true);
+            setIsRoute(null);
+            setRouteSegments([]);
 
-        if (showRoute && routingControl) {
-            routingControl.remove();
-            setRoutingControl(null);
-            setShowRoute(false);
-            setIsNavigationDisabled(false);
-            return;
-        }
+            if (showRoute && routingControl) {
+                routingControl.remove();
+                setRoutingControl(null);
+                setShowRoute(false);
+                setIsNavigationDisabled(false);
+                return;
+            }
 
-        if (places.length < 2) return;
+            if (places.length < 2) return;
 
-        const waypoints = places.map((place) => L.latLng(place.x, place.y));
-        const profile =
-            transportMode === "car"
-                ? "driving"
-                : transportMode === "bike"
-                  ? "cycling"
-                  : "walking";
+            const waypoints = places.map((place) => L.latLng(place.x, place.y));
+            const profile =
+                transportMode === "car"
+                    ? "driving"
+                    : transportMode === "bike"
+                      ? "cycling"
+                      : "walking";
 
-        const newRoutingControl = L.Routing.control({
-            waypoints,
-            lineOptions: {
-                styles: [{ color: "#6FA1EC", weight: 4 }],
-                extendToWaypoints: false,
-                missingRouteTolerance: 0,
-            },
-            // createMarker: () => null,
-            routeWhileDragging: false,
-            addWaypoints: false,
-            router: L.Routing.mapbox(
-                "pk.eyJ1IjoicGFwb2I2NTE2MyIsImEiOiJjbHdvc2ZjeXowNmEzMmxwMXl2bWp0bG9lIn0.rjsesOn8yBOT8uQN4wYI8w",
-                {
-                    profile: `mapbox/${profile}`,
+            const newRoutingControl = L.Routing.control({
+                waypoints,
+                lineOptions: {
+                    styles: [{ color: "#6FA1EC", weight: 4 }],
+                    extendToWaypoints: false,
+                    missingRouteTolerance: 0,
                 },
-            ),
-        });
+                // createMarker: () => null,
+                routeWhileDragging: false,
+                addWaypoints: false,
+                router: L.Routing.mapbox(
+                    "pk.eyJ1IjoicGFwb2I2NTE2MyIsImEiOiJjbHdvc2ZjeXowNmEzMmxwMXl2bWp0bG9lIn0.rjsesOn8yBOT8uQN4wYI8w",
+                    {
+                        profile: `mapbox/${profile}`,
+                    },
+                ),
+            });
 
-        newRoutingControl.on("routesfound", (e) => {
-            const route = e.routes[0];
-            const totalDistance = (route.summary.totalDistance / 1000).toFixed(
-                2,
-            );
-            const totalTime = (route.summary.totalTime / 3600).toFixed(2);
+            newRoutingControl.on("routesfound", (e) => {
+                const route = e.routes[0];
+                const totalDistance = (
+                    route.summary.totalDistance / 1000
+                ).toFixed(2);
+                const totalTime = (route.summary.totalTime / 3600).toFixed(2);
 
-            let distanceInstructions = 0;
-            let timeInstructions = 0;
-            const resultDistanceInstructions = [];
-            const resultTimeInstructions = [];
+                let distanceInstructions = 0;
+                let timeInstructions = 0;
+                const resultDistanceInstructions = [];
+                const resultTimeInstructions = [];
 
-            setRouteTime([]);
-            setRouteDistance([]);
+                setRouteTime([]);
+                setRouteDistance([]);
 
-            route.instructions.forEach(
-                (obj: { time: number; distance: number; type: string }) => {
-                    timeInstructions += obj.time;
-                    distanceInstructions += obj.distance;
+                route.instructions.forEach(
+                    (obj: { time: number; distance: number; type: string }) => {
+                        timeInstructions += obj.time;
+                        distanceInstructions += obj.distance;
 
-                    if (obj.type === "WaypointReached") {
-                        resultDistanceInstructions.push(
-                            (distanceInstructions / 1000).toFixed(2),
-                        );
-                        resultTimeInstructions.push(
-                            convertTime(timeInstructions),
-                        );
+                        if (obj.type === "WaypointReached") {
+                            resultDistanceInstructions.push(
+                                (distanceInstructions / 1000).toFixed(2),
+                            );
+                            resultTimeInstructions.push(
+                                convertTime(timeInstructions),
+                            );
 
-                        distanceInstructions = 0;
-                        timeInstructions = 0;
-                    }
-                },
-            );
+                            distanceInstructions = 0;
+                            timeInstructions = 0;
+                        }
+                    },
+                );
 
-            resultDistanceInstructions.push(
-                (distanceInstructions / 1000).toFixed(2),
-            );
-            resultTimeInstructions.push(convertTime(timeInstructions));
+                resultDistanceInstructions.push(
+                    (distanceInstructions / 1000).toFixed(2),
+                );
+                resultTimeInstructions.push(convertTime(timeInstructions));
 
-            setRouteTime(resultTimeInstructions);
-            setRouteDistance(resultDistanceInstructions);
-            setRouteSegments([{ distance: totalDistance, time: totalTime }]);
-            setShowRoute(true);
-            setIsNavigationDisabled(false);
-        });
+                setRouteTime(resultTimeInstructions);
+                setRouteDistance(resultDistanceInstructions);
+                setRouteSegments([
+                    { distance: totalDistance, time: totalTime },
+                ]);
+                setShowRoute(true);
+                setIsNavigationDisabled(false);
+            });
 
-        await newRoutingControl.addTo(window.map);
+            await newRoutingControl.addTo(window.map);
 
-        setIsRoute(date);
+            setIsRoute(date);
 
-        setRoutingControl(newRoutingControl);
-        window.map.fitBounds(L.latLngBounds(waypoints));
-    };
+            setRoutingControl(newRoutingControl);
+            window.map.fitBounds(L.latLngBounds(waypoints));
+        },
+        [
+            routingControl,
+            setRoutingControl,
+            showRoute,
+            transportMode,
+            setShowRoute,
+        ],
+    );
 
     const convertTime = (totalSeconds: number): string => {
         const totalMinutes = totalSeconds / 60;
