@@ -1,4 +1,10 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import {
+    Dispatch,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useMemo,
+} from "react";
 import { FaCity, FaPlusCircle } from "react-icons/fa";
 import { IoArrowBack } from "react-icons/io5";
 import { BiSolidCategory } from "react-icons/bi";
@@ -27,7 +33,7 @@ export default function PlaceCard({
     dates,
     setDates,
 }: PlaceCardProps) {
-    const todayDate = new Date();
+    const todayDate = useMemo(() => new Date(), []);
     const formattedTodayDate = `${todayDate.getDate() < 10 ? "0" + todayDate.getDate() : todayDate.getDate()}/${todayDate.getMonth() + 1 < 10 ? "0" + (todayDate.getMonth() + 1) : todayDate.getMonth() + 1}`;
     const positionId = selectedPosition !== null ? selectedPosition - 1 : 0;
 
@@ -51,7 +57,7 @@ export default function PlaceCard({
         }
     }, [setDates, formattedTodayDate, dates, positionId, updateDatesStorage]);
 
-    const handleDateStorage = () => {
+    const handleDateStorage = useCallback(() => {
         const nextDay = new Date(todayDate);
         nextDay.setDate(todayDate.getDate() + dates.length);
         const formattedNextDay = `${nextDay.getDate() < 10 ? "0" + nextDay.getDate() : nextDay.getDate()}/${nextDay.getMonth() + 1 < 10 ? "0" + (nextDay.getMonth() + 1) : nextDay.getMonth() + 1}`;
@@ -63,19 +69,22 @@ export default function PlaceCard({
 
         setDates(newDates);
         updateDatesStorage(positionId, newDates);
-    };
+    }, [dates, setDates, positionId, updateDatesStorage, todayDate]);
 
-    const handleActivateDate = (id: number) => {
-        const updatedDates = dates.map((dateObj) => {
-            if (dateObj.id === id) {
-                return { ...dateObj, active: !dateObj.active };
-            }
-            return dateObj;
-        });
+    const handleActivateDate = useCallback(
+        (id: number) => {
+            const updatedDates = dates.map((dateObj) => {
+                if (dateObj.id === id) {
+                    return { ...dateObj, active: !dateObj.active };
+                }
+                return dateObj;
+            });
 
-        setDates(updatedDates);
-        updateDatesStorage(positionId, updatedDates);
-    };
+            setDates(updatedDates);
+            updateDatesStorage(positionId, updatedDates);
+        },
+        [dates, setDates, positionId, updateDatesStorage],
+    );
 
     useEffect(() => {
         const isAnyDateActive = dates.some((dateObj) => dateObj.active);

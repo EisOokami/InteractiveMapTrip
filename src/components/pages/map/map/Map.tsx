@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import {
     LayersControl,
     MapContainer,
@@ -41,14 +41,24 @@ export default function Map({
     setOpenPlaceCard,
     setOpenTrip,
 }: MapProps) {
-    const handleZoomLocation = (x: number, y: number, key: number) => {
-        setOpenSearch(true);
-        setOpenPlaceCard(true);
-        setOpenTrip(false);
-        setZoomLocationX(x);
-        setZoomLocationY(y);
-        setSelectedPosition(key);
-    };
+    const handleZoomLocation = useCallback(
+        (x: number, y: number, key: number) => {
+            setOpenSearch(true);
+            setOpenPlaceCard(true);
+            setOpenTrip(false);
+            setZoomLocationX(x);
+            setZoomLocationY(y);
+            setSelectedPosition(key);
+        },
+        [
+            setOpenPlaceCard,
+            setOpenSearch,
+            setOpenTrip,
+            setSelectedPosition,
+            setZoomLocationX,
+            setZoomLocationY,
+        ],
+    );
 
     return (
         <MapContainer

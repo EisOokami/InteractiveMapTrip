@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, memo, SetStateAction, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import { FaPersonHiking } from "react-icons/fa6";
@@ -11,30 +11,30 @@ interface NavbarProps {
     setOpenTrip: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Navbar({
+const Navbar = memo(function Navbar({
     openSearch,
     setOpenSearch,
     setOpenPlaceCard,
     openTrip,
     setOpenTrip,
 }: NavbarProps) {
-    const handleOpenMap = () => {
+    const handleOpenMap = useCallback(() => {
         setOpenSearch(false);
         setOpenPlaceCard(false);
         setOpenTrip(false);
-    };
+    }, [setOpenSearch, setOpenPlaceCard, setOpenTrip]);
 
-    const handleOpenSearch = () => {
+    const handleOpenSearch = useCallback(() => {
         setOpenSearch(!openSearch);
         setOpenPlaceCard(false);
         setOpenTrip(false);
-    };
+    }, [openSearch, setOpenPlaceCard, setOpenTrip, setOpenSearch]);
 
-    const handleOpenTrip = () => {
+    const handleOpenTrip = useCallback(() => {
         setOpenSearch(false);
         setOpenPlaceCard(false);
         setOpenTrip(!openTrip);
-    };
+    }, [openTrip, setOpenSearch, setOpenPlaceCard, setOpenTrip]);
 
     return (
         <div className="navbar md:grid bg-white dark:bg-second-black border-t-2 md:border-t-0 md:border-r-2 dark:border-second-gray font-mono z-[1999] transition">
@@ -63,4 +63,6 @@ export default function Navbar({
             </ul>
         </div>
     );
-}
+});
+
+export default Navbar;

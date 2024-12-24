@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import L from "leaflet";
 import { fetchPositions } from "../../../services/firebaseDatabase";
-import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../../services/firebaseConfig";
 import {
     IDates,
     IDatesStorage,
@@ -11,12 +9,18 @@ import {
     ISortedDates,
 } from "../../../interfaces/interface";
 
-import Map from "./map/Map";
-import Navbar from "./navbar/Navbar";
-import Search from "./search/Search";
-import PlaceCard from "./placeCard/PlaceCard";
-import Trip from "./trip/Trip";
-import DarkModeBtn from "../../ui/darkModeBtn/DarkModeBtn";
+import LoadingNavbar from "../../ui/loadings/loadingNavbar/LoadingNavbar";
+import LoadingSearch from "../../ui/loadings/loadingSearch/LoadingSearch";
+import LoadingPlaceCard from "../../ui/loadings/loadingPlaceCard/LoadingPlaceCard";
+import LoadingTrip from "../../ui/loadings/loadingTrip/LoadingTrip";
+import LoadingMap from "../../ui/loadings/loadingMap/LoadingMap";
+import LoadingDarkModeBtn from "../../ui/loadings/loadingDarkModeBtn/LoadingDarkModeBtn";
+const Map = lazy(() => import("./map/Map"));
+const Navbar = lazy(() => import("./navbar/Navbar"));
+const Search = lazy(() => import("./search/Search"));
+const PlaceCard = lazy(() => import("./placeCard/PlaceCard"));
+const Trip = lazy(() => import("./trip/Trip"));
+const DarkModeBtn = lazy(() => import("../../ui/darkModeBtn/DarkModeBtn"));
 
 const animationSettings = {
     initial: {
@@ -57,40 +61,20 @@ export default function MapPage() {
     const [dates, setDates] = useState<IDates[]>([]);
     const [positions, setPositions] = useState<IPositions[]>([]);
     const [isPositionLoading, setIsPositionLoading] = useState<boolean>(true);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setIsAuthenticated(true);
-            } else {
-                signInAnonymously(auth)
-                    .then(() => {
-                        setIsAuthenticated(true);
-                    })
-                    .catch((error) => {
-                        console.error(error.message);
-                    });
-            }
-        });
-
-        return () => {
-            unsubscribe();
-        };
+        fetchPositions(setPositions, setIsPositionLoading);
     }, []);
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetchPositions(setPositions, setIsPositionLoading);
-        }
-    }, [isAuthenticated]);
-
-    const updateDatesStorage = (markerId: number, dates: IDates[]) => {
-        setDatesStorage((prevState) => ({
-            ...prevState,
-            [markerId]: dates,
-        }));
-    };
+    const updateDatesStorage = useCallback(
+        (markerId: number, dates: IDates[]) => {
+            setDatesStorage((prevState) => ({
+                ...prevState,
+                [markerId]: dates,
+            }));
+        },
+        [],
+    );
 
     if (isPositionLoading) {
         return (
@@ -105,28 +89,19 @@ export default function MapPage() {
         );
     }
 
-    if (!isAuthenticated) {
-        return (
-            <div className="flex flex-col justify-center items-center w-screen h-screen">
-                <div className="grid justify-items-center gap-5">
-                    <h3 className="text-4xl">Loading...</h3>
-                    <h3 className="text-2xl">You are signing in as a Guest</h3>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="app flex flex-col h-svh">
             <div className="flex-grow flex">
                 <div className="hidden md:flex">
-                    <Navbar
-                        openSearch={openSearch}
-                        setOpenSearch={setOpenSearch}
-                        setOpenPlaceCard={setOpenPlaceCard}
-                        openTrip={openTrip}
-                        setOpenTrip={setOpenTrip}
-                    />
+                    <Suspense fallback={<LoadingNavbar />}>
+                        <Navbar
+                            openSearch={openSearch}
+                            setOpenSearch={setOpenSearch}
+                            setOpenPlaceCard={setOpenPlaceCard}
+                            openTrip={openTrip}
+                            setOpenTrip={setOpenTrip}
+                        />
+                    </Suspense>
                 </div>
                 <AnimatePresence>
                     {openSearch && (
@@ -138,27 +113,31 @@ export default function MapPage() {
                             animate="animate"
                             exit="exit"
                         >
-                            <Search
-                                positions={positions}
-                                valueLocation={valueLocation}
-                                valueName={valueName}
-                                setValueLocation={setValueLocation}
-                                setValueName={setValueName}
-                                setZoomLocationX={setZoomLocationX}
-                                setZoomLocationY={setZoomLocationY}
-                                setSelectedPosition={setSelectedPosition}
-                                setOpenPlaceCard={setOpenPlaceCard}
-                            />
-                            {openPlaceCard && (
-                                <PlaceCard
+                            <Suspense fallback={<LoadingSearch />}>
+                                <Search
                                     positions={positions}
-                                    selectedPosition={selectedPosition}
+                                    valueLocation={valueLocation}
+                                    valueName={valueName}
+                                    setValueLocation={setValueLocation}
+                                    setValueName={setValueName}
+                                    setZoomLocationX={setZoomLocationX}
+                                    setZoomLocationY={setZoomLocationY}
+                                    setSelectedPosition={setSelectedPosition}
                                     setOpenPlaceCard={setOpenPlaceCard}
-                                    datesStorage={datesStorage}
-                                    updateDatesStorage={updateDatesStorage}
-                                    dates={dates}
-                                    setDates={setDates}
                                 />
+                            </Suspense>
+                            {openPlaceCard && (
+                                <Suspense fallback={<LoadingPlaceCard />}>
+                                    <PlaceCard
+                                        positions={positions}
+                                        selectedPosition={selectedPosition}
+                                        setOpenPlaceCard={setOpenPlaceCard}
+                                        datesStorage={datesStorage}
+                                        updateDatesStorage={updateDatesStorage}
+                                        dates={dates}
+                                        setDates={setDates}
+                                    />
+                                </Suspense>
                             )}
                         </motion.div>
                     )}
@@ -171,44 +150,52 @@ export default function MapPage() {
                             animate="animate"
                             exit="exit"
                         >
-                            <Trip
-                                positions={positions}
-                                datesStorage={datesStorage}
-                                showRoute={showRoute}
-                                setShowRoute={setShowRoute}
-                                routingControl={routingControl}
-                                setRoutingControl={setRoutingControl}
-                                transportMode={transportMode}
-                                setTransportMode={setTransportMode}
-                                sortedDates={sortedDates}
-                                setSortedDates={setSortedDates}
-                            />
+                            <Suspense fallback={<LoadingTrip />}>
+                                <Trip
+                                    positions={positions}
+                                    datesStorage={datesStorage}
+                                    showRoute={showRoute}
+                                    setShowRoute={setShowRoute}
+                                    routingControl={routingControl}
+                                    setRoutingControl={setRoutingControl}
+                                    transportMode={transportMode}
+                                    setTransportMode={setTransportMode}
+                                    sortedDates={sortedDates}
+                                    setSortedDates={setSortedDates}
+                                />
+                            </Suspense>
                         </motion.div>
                     )}
                 </AnimatePresence>
                 <div className="md:relative flex-grow h-full">
-                    <Map
-                        setOpenSearch={setOpenSearch}
-                        positions={positions}
-                        zoomLocationX={zoomLocationX}
-                        zoomLocationY={zoomLocationY}
-                        setZoomLocationX={setZoomLocationX}
-                        setZoomLocationY={setZoomLocationY}
-                        setSelectedPosition={setSelectedPosition}
-                        setOpenPlaceCard={setOpenPlaceCard}
-                        setOpenTrip={setOpenTrip}
-                    />
-                    <DarkModeBtn />
+                    <Suspense fallback={<LoadingMap />}>
+                        <Map
+                            setOpenSearch={setOpenSearch}
+                            positions={positions}
+                            zoomLocationX={zoomLocationX}
+                            zoomLocationY={zoomLocationY}
+                            setZoomLocationX={setZoomLocationX}
+                            setZoomLocationY={setZoomLocationY}
+                            setSelectedPosition={setSelectedPosition}
+                            setOpenPlaceCard={setOpenPlaceCard}
+                            setOpenTrip={setOpenTrip}
+                        />
+                    </Suspense>
+                    <Suspense fallback={<LoadingDarkModeBtn />}>
+                        <DarkModeBtn />
+                    </Suspense>
                 </div>
             </div>
             <div className="md:hidden">
-                <Navbar
-                    openSearch={openSearch}
-                    setOpenSearch={setOpenSearch}
-                    setOpenPlaceCard={setOpenPlaceCard}
-                    openTrip={openTrip}
-                    setOpenTrip={setOpenTrip}
-                />
+                <Suspense fallback={<LoadingNavbar />}>
+                    <Navbar
+                        openSearch={openSearch}
+                        setOpenSearch={setOpenSearch}
+                        setOpenPlaceCard={setOpenPlaceCard}
+                        openTrip={openTrip}
+                        setOpenTrip={setOpenTrip}
+                    />
+                </Suspense>
             </div>
         </div>
     );
