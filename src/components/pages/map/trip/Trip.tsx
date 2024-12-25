@@ -5,8 +5,6 @@ import {
     SetStateAction,
     useCallback,
 } from "react";
-import { MdDirectionsBike } from "react-icons/md";
-import { FaCar, FaWalking, FaInfoCircle } from "react-icons/fa";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import {
@@ -24,6 +22,8 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { MdDirectionsBike } from "react-icons/md";
+import { FaCar, FaWalking, FaInfoCircle } from "react-icons/fa";
 import {
     IDatesMap,
     IDatesStorage,
@@ -221,7 +221,7 @@ export default function Trip({
         (event: DragEndEvent, date: string, places: IPositions[]) => {
             const { active, over } = event;
 
-            if (over && active.id !== over.id) {
+            if (over && active.id !== over.id && routeSegments.length === 0) {
                 const activeIndex = places.findIndex(
                     (place) => place.id === active.id,
                 );
@@ -242,7 +242,7 @@ export default function Trip({
                 setSortedDates(newSortedDates);
             }
         },
-        [setSortedDates, sortedDates],
+        [setSortedDates, sortedDates, routeSegments],
     );
 
     return (
