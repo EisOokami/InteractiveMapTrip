@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
-import "../style/index.scss";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../services/firebaseConfig";
+import "../style/index.scss";
 
 import LoadingMapPage from "./ui/loadings/loadingMapPage/LoadingMapPage";
 const MapPage = lazy(() => import("./pages/map/MapPage"));

@@ -9,10 +9,6 @@ import { IPositions } from "../../../../interfaces/search/interface";
 
 interface SearchProps {
     positions: IPositions[];
-    valueLocation: string;
-    valueName: string;
-    setValueLocation: Dispatch<SetStateAction<string>>;
-    setValueName: Dispatch<SetStateAction<string>>;
     setZoomLocationX: Dispatch<SetStateAction<number>>;
     setZoomLocationY: Dispatch<SetStateAction<number>>;
     setSelectedPosition: Dispatch<SetStateAction<number | null>>;
@@ -21,15 +17,13 @@ interface SearchProps {
 
 export default function Search({
     positions,
-    valueLocation,
-    valueName,
-    setValueLocation,
-    setValueName,
     setZoomLocationX,
     setZoomLocationY,
     setSelectedPosition,
     setOpenPlaceCard,
 }: SearchProps) {
+    const [valueLocation, setValueLocation] = useState<string>("");
+    const [valueName, setValueName] = useState<string>("");
     const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 

@@ -10,6 +10,21 @@ import { FaCar, FaWalking, FaInfoCircle } from "react-icons/fa";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import {
+    closestCenter,
+    DndContext,
+    DragEndEvent,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
+import {
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
     IDatesMap,
     IDatesStorage,
     IPositions,
@@ -51,12 +66,19 @@ export default function Trip({
     const [routeDistance, setRouteDistance] = useState<string[]>([]);
     const [isNavigationDisabled, setIsNavigationDisabled] =
         useState<boolean>(false);
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        }),
+    );
 
     useEffect(() => {
         const datesMap: IDatesMap = {};
 
         Object.keys(datesStorage).forEach((positionId) => {
             const dates = datesStorage[+positionId];
+
             dates.forEach((dateObj) => {
                 if (dateObj.active) {
                     if (!datesMap[dateObj.date]) {
@@ -195,6 +217,34 @@ export default function Trip({
         return `${hours}.${minutes.toString().padStart(2, "0")}`;
     };
 
+    const handleDragEnd = useCallback(
+        (event: DragEndEvent, date: string, places: IPositions[]) => {
+            const { active, over } = event;
+
+            if (over && active.id !== over.id) {
+                const activeIndex = places.findIndex(
+                    (place) => place.id === active.id,
+                );
+                const overIndex = places.findIndex(
+                    (place) => place.id === over.id,
+                );
+
+                const newPlaces = [...places];
+                const [removed] = newPlaces.splice(activeIndex, 1);
+                newPlaces.splice(overIndex, 0, removed);
+
+                const newSortedDates = sortedDates.map((sortedDate) =>
+                    sortedDate.date === date
+                        ? { date, places: newPlaces }
+                        : sortedDate,
+                );
+
+                setSortedDates(newSortedDates);
+            }
+        },
+        [setSortedDates, sortedDates],
+    );
+
     return (
         <div className="trip absolute flex flex-col w-screen md:w-full h-full pt-6 px-3 bg-white dark:bg-second-black z-[1999] transition">
             <h1 className="mb-3 dark:text-white text-2xl sm:text-3xl font-bold">
@@ -233,43 +283,59 @@ export default function Trip({
                 {sortedDates.length ? (
                     sortedDates.map(({ date, places }, index) => (
                         <div key={index}>
-                            <h2 className="mb-2 dark:text-white text-xl font-semibold transition">
-                                {date}
-                            </h2>
-                            {places.map((place, index) => (
-                                <div key={index}>
-                                    <PlaceCardForNavigation
-                                        place={place}
-                                        convertTime={convertTime}
-                                    />
-                                    {routeSegments.length > 0 &&
-                                        index !== places.length - 1 && (
-                                            <RouteInfo
-                                                index={index}
-                                                routeDistance={routeDistance}
-                                                routeTime={routeTime}
-                                            />
-                                        )}
-                                </div>
-                            ))}
-                            <div className="btn-navigation flex mt-3">
-                                <button
-                                    type="button"
-                                    className="btn-global"
-                                    onClick={() =>
-                                        handleNavigation(places, date)
-                                    }
-                                    disabled={isNavigationDisabled}
+                            <DndContext
+                                sensors={sensors}
+                                onDragEnd={(e: DragEndEvent) =>
+                                    handleDragEnd(e, date, places)
+                                }
+                                modifiers={[restrictToVerticalAxis]}
+                                collisionDetection={closestCenter}
+                            >
+                                <h2 className="mb-2 dark:text-white text-xl font-semibold transition">
+                                    {date}
+                                </h2>
+                                <SortableContext
+                                    items={places}
+                                    strategy={verticalListSortingStrategy}
                                 >
-                                    Navigation
-                                </button>
-                                {isRoute === date && (
-                                    <p className="msg-info_trip">
-                                        <FaInfoCircle className="text-blue-800 text-2xl" />
-                                        Route has been planned
-                                    </p>
-                                )}
-                            </div>
+                                    {places.map((place, index) => (
+                                        <div key={index}>
+                                            <PlaceCardForNavigation
+                                                place={place}
+                                                convertTime={convertTime}
+                                            />
+                                            {routeSegments.length > 0 &&
+                                                index !== places.length - 1 && (
+                                                    <RouteInfo
+                                                        index={index}
+                                                        routeDistance={
+                                                            routeDistance
+                                                        }
+                                                        routeTime={routeTime}
+                                                    />
+                                                )}
+                                        </div>
+                                    ))}
+                                </SortableContext>
+                                <div className="btn-navigation flex mt-3">
+                                    <button
+                                        type="button"
+                                        className="btn-global"
+                                        onClick={() =>
+                                            handleNavigation(places, date)
+                                        }
+                                        disabled={isNavigationDisabled}
+                                    >
+                                        Navigation
+                                    </button>
+                                    {isRoute === date && (
+                                        <p className="msg-info_trip">
+                                            <FaInfoCircle className="text-blue-800 text-2xl" />
+                                            Route has been planned
+                                        </p>
+                                    )}
+                                </div>
+                            </DndContext>
                         </div>
                     ))
                 ) : (

@@ -43,16 +43,14 @@ const animationSettings = {
 
 export default function MapPage() {
     const [openSearch, setOpenSearch] = useState<boolean>(false);
-    const [valueLocation, setValueLocation] = useState<string>("");
-    const [valueName, setValueName] = useState<string>("");
+    const [openTrip, setOpenTrip] = useState<boolean>(false);
+    const [openPlaceCard, setOpenPlaceCard] = useState<boolean>(false);
     const [zoomLocationX, setZoomLocationX] = useState<number>(52.083);
     const [zoomLocationY, setZoomLocationY] = useState<number>(19.375);
     const [selectedPosition, setSelectedPosition] = useState<number | null>(
         null,
     );
-    const [openPlaceCard, setOpenPlaceCard] = useState<boolean>(false);
     const [datesStorage, setDatesStorage] = useState<IDatesStorage>({});
-    const [openTrip, setOpenTrip] = useState<boolean>(false);
     const [showRoute, setShowRoute] = useState<boolean>(false);
     const [transportMode, setTransportMode] = useState<string>("car");
     const [routingControl, setRoutingControl] =
@@ -89,6 +87,8 @@ export default function MapPage() {
         );
     }
 
+    // console.log(dates, sortedDates, datesStorage);
+
     return (
         <div className="app flex flex-col h-svh">
             <div className="flex-grow flex">
@@ -116,10 +116,6 @@ export default function MapPage() {
                             <Suspense fallback={<LoadingSearch />}>
                                 <Search
                                     positions={positions}
-                                    valueLocation={valueLocation}
-                                    valueName={valueName}
-                                    setValueLocation={setValueLocation}
-                                    setValueName={setValueName}
                                     setZoomLocationX={setZoomLocationX}
                                     setZoomLocationY={setZoomLocationY}
                                     setSelectedPosition={setSelectedPosition}
