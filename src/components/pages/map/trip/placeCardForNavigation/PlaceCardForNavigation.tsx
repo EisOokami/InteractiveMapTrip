@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { IPositions } from "../../../../../interfaces/trip/interface";
@@ -12,12 +13,16 @@ export default function PlaceCardForNavigation({
     convertTime,
 }: PlaceCardForNavigationProps) {
     const id = place.id;
-    const { attributes, listeners, setNodeRef, transform } = useSortable({
-        id,
-    });
+    const { attributes, listeners, setNodeRef, transform, isDragging } =
+        useSortable({
+            id,
+        });
 
-    const style = {
+    const style: CSSProperties = {
         transform: CSS.Transform.toString(transform),
+        position: isDragging ? "relative" : "inherit",
+        zIndex: isDragging ? 1000 : 0,
+        cursor: isDragging ? "grabbing" : "grab",
     };
 
     return (
