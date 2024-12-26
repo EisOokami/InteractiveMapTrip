@@ -87,8 +87,6 @@ export default function MapPage() {
         );
     }
 
-    // console.log(dates, sortedDates, datesStorage);
-
     return (
         <div className="app flex flex-col h-svh">
             <div className="flex-grow flex">
@@ -100,6 +98,8 @@ export default function MapPage() {
                             setOpenPlaceCard={setOpenPlaceCard}
                             openTrip={openTrip}
                             setOpenTrip={setOpenTrip}
+                            setZoomLocationX={setZoomLocationX}
+                            setZoomLocationY={setZoomLocationY}
                         />
                     </Suspense>
                 </div>
@@ -132,6 +132,8 @@ export default function MapPage() {
                                         updateDatesStorage={updateDatesStorage}
                                         dates={dates}
                                         setDates={setDates}
+                                        setZoomLocationX={setZoomLocationX}
+                                        setZoomLocationY={setZoomLocationY}
                                     />
                                 </Suspense>
                             )}
@@ -190,6 +192,8 @@ export default function MapPage() {
                         setOpenPlaceCard={setOpenPlaceCard}
                         openTrip={openTrip}
                         setOpenTrip={setOpenTrip}
+                        setZoomLocationX={setZoomLocationX}
+                        setZoomLocationY={setZoomLocationY}
                     />
                 </Suspense>
             </div>
