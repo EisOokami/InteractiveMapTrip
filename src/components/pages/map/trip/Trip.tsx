@@ -246,7 +246,7 @@ export default function Trip({
     );
 
     return (
-        <div className="trip absolute flex flex-col w-screen md:w-96 h-full pt-6 px-3 bg-white dark:bg-second-black z-[1999] transition">
+        <div className="trip absolute flex flex-col w-screen md:w-97 h-full pt-6 px-3 bg-white dark:bg-second-black z-[1999] transition">
             <h1 className="mb-3 dark:text-white text-2xl sm:text-3xl font-bold">
                 Trip Plan
             </h1>

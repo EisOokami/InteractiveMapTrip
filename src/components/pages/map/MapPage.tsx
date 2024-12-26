@@ -107,7 +107,7 @@ export default function MapPage() {
                     {openSearch && (
                         <motion.div
                             key="search"
-                            className="search-container relative w-96 h-full md:h-screen z-[1001] md:z-0"
+                            className="search-container relative h-full md:h-screen z-[1001] md:z-0"
                             variants={animationSettings}
                             initial="initial"
                             animate="animate"
@@ -142,7 +142,7 @@ export default function MapPage() {
                     {openTrip && (
                         <motion.div
                             key="trip"
-                            className="trip-container relative w-96 h-full md:h-screen z-[1001] md:z-0"
+                            className="trip-container relative h-full md:h-screen z-[1001] md:z-0"
                             variants={animationSettings}
                             initial="initial"
                             animate="animate"
