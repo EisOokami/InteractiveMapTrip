@@ -9,6 +9,9 @@ export default {
                 "second-black": "#090808",
                 "second-gray": "#19191e",
             },
+            spacing: {
+                97: "385px",
+            },
         },
         fontFamily: {
             mono: ["Montserrat", "sans-serif"],

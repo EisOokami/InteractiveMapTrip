@@ -22,6 +22,8 @@ interface PlaceCardProps {
     updateDatesStorage: (markerId: number, dates: IDates[]) => void;
     dates: IDates[];
     setDates: Dispatch<SetStateAction<IDates[]>>;
+    setZoomLocationX: Dispatch<SetStateAction<number>>;
+    setZoomLocationY: Dispatch<SetStateAction<number>>;
 }
 
 export default function PlaceCard({
@@ -32,6 +34,8 @@ export default function PlaceCard({
     updateDatesStorage,
     dates,
     setDates,
+    setZoomLocationX,
+    setZoomLocationY,
 }: PlaceCardProps) {
     const todayDate = useMemo(() => new Date(), []);
     const formattedTodayDate = `${todayDate.getDate() < 10 ? "0" + todayDate.getDate() : todayDate.getDate()}/${todayDate.getMonth() + 1 < 10 ? "0" + (todayDate.getMonth() + 1) : todayDate.getMonth() + 1}`;
@@ -93,12 +97,18 @@ export default function PlaceCard({
         }
     }, [dates]);
 
+    const handleOpenPlaceCard = useCallback(() => {
+        setOpenPlaceCard(false);
+        setZoomLocationX(52.083);
+        setZoomLocationY(19.375);
+    }, [setOpenPlaceCard, setZoomLocationX, setZoomLocationY]);
+
     return (
-        <div className="place-card absolute -inset-y-10 w-screen md:w-full h-[calc(100%+40px)] bg-white dark:bg-second-black overflow-y-hidden z-[1099] transition">
+        <div className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-second-black overflow-y-hidden z-[1099] transition">
             <div className="place-card-scroll h-full overflow-y-auto">
                 <div
                     className="btn-back_place-card"
-                    onClick={() => setOpenPlaceCard(false)}
+                    onClick={handleOpenPlaceCard}
                 >
                     <IoArrowBack className="w-[30px] h-[30px] text-white" />
                 </div>

@@ -9,6 +9,8 @@ interface NavbarProps {
     setOpenPlaceCard: Dispatch<SetStateAction<boolean>>;
     openTrip: boolean;
     setOpenTrip: Dispatch<SetStateAction<boolean>>;
+    setZoomLocationX: Dispatch<SetStateAction<number>>;
+    setZoomLocationY: Dispatch<SetStateAction<number>>;
 }
 
 const Navbar = memo(function Navbar({
@@ -17,24 +19,52 @@ const Navbar = memo(function Navbar({
     setOpenPlaceCard,
     openTrip,
     setOpenTrip,
+    setZoomLocationX,
+    setZoomLocationY,
 }: NavbarProps) {
     const handleOpenMap = useCallback(() => {
         setOpenSearch(false);
         setOpenPlaceCard(false);
         setOpenTrip(false);
-    }, [setOpenSearch, setOpenPlaceCard, setOpenTrip]);
+        setZoomLocationX(52.083);
+        setZoomLocationY(19.375);
+    }, [
+        setOpenSearch,
+        setOpenPlaceCard,
+        setOpenTrip,
+        setZoomLocationX,
+        setZoomLocationY,
+    ]);
 
     const handleOpenSearch = useCallback(() => {
         setOpenSearch(!openSearch);
         setOpenPlaceCard(false);
         setOpenTrip(false);
-    }, [openSearch, setOpenPlaceCard, setOpenTrip, setOpenSearch]);
+        setZoomLocationX(52.083);
+        setZoomLocationY(19.375);
+    }, [
+        openSearch,
+        setOpenPlaceCard,
+        setOpenTrip,
+        setOpenSearch,
+        setZoomLocationX,
+        setZoomLocationY,
+    ]);
 
     const handleOpenTrip = useCallback(() => {
         setOpenSearch(false);
         setOpenPlaceCard(false);
         setOpenTrip(!openTrip);
-    }, [openTrip, setOpenSearch, setOpenPlaceCard, setOpenTrip]);
+        setZoomLocationX(52.083);
+        setZoomLocationY(19.375);
+    }, [
+        openTrip,
+        setOpenSearch,
+        setOpenPlaceCard,
+        setOpenTrip,
+        setZoomLocationX,
+        setZoomLocationY,
+    ]);
 
     return (
         <div className="navbar md:grid bg-white dark:bg-second-black border-t-2 md:border-t-0 md:border-r-2 dark:border-second-gray font-mono z-[1999] transition">

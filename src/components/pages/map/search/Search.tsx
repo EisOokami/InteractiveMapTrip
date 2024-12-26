@@ -79,7 +79,7 @@ export default function Search({
     );
 
     return (
-        <div className="search absolute flex flex-col w-screen md:w-full h-full px-3 bg-white dark:bg-second-black z-[1001] transition">
+        <div className="search absolute flex flex-col w-screen md:w-97 h-full px-3 bg-white dark:bg-second-black z-[1001] transition">
             <h1 className="mt-5 dark:text-white text-2xl sm:text-3xl font-bold">
                 Search
             </h1>
