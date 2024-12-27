@@ -1,5 +1,4 @@
 import { Dispatch, memo, SetStateAction, useCallback } from "react";
-import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import { FaPersonHiking } from "react-icons/fa6";
 
@@ -66,25 +65,30 @@ const Navbar = memo(function Navbar({
         setZoomLocationY,
     ]);
 
+    const styleIsActiveMap =
+        !openSearch && !openTrip ? "navbar__option--active" : "";
+    const styleIsActiveSearch = openSearch ? "navbar__option--active" : "";
+    const styleIsActiveTrip = openTrip ? "navbar__option--active" : "";
+
     return (
         <div className="navbar md:grid bg-white dark:bg-dark-mode-black border-t-2 md:border-t-0 md:border-r-2 dark:border-dark-mode-gray-2 font-mono z-[1999] transition">
             <ul className="flex justify-around md:flex-col md:justify-center">
-                <motion.li
-                    className={`navbar__option ${!openSearch && !openTrip ? "navbar__option--active" : ""}`}
+                <li
+                    className={`navbar__option ${styleIsActiveMap}`}
                     onClick={handleOpenMap}
                 >
                     <FaMapMarkerAlt />
                     <div className="navbar__option--bg-gradient"></div>
-                </motion.li>
+                </li>
                 <li
-                    className={`navbar__option ${openSearch ? "navbar__option--active" : ""}`}
+                    className={`navbar__option ${styleIsActiveSearch}`}
                     onClick={handleOpenSearch}
                 >
                     <FaSearch />
                     <div className="navbar__option--bg-gradient"></div>
                 </li>
                 <li
-                    className={`navbar__option ${openTrip ? "navbar__option--active" : ""}`}
+                    className={`navbar__option ${styleIsActiveTrip}`}
                     onClick={handleOpenTrip}
                 >
                     <FaPersonHiking />

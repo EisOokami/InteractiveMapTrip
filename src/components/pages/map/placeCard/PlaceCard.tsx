@@ -103,6 +103,9 @@ export default function PlaceCard({
         setZoomLocationY(19.375);
     }, [setOpenPlaceCard, setZoomLocationX, setZoomLocationY]);
 
+    const styleIsActiveDataBox = (isActive: boolean) =>
+        isActive ? "bg-blue-900 hover:bg-blue-800" : "";
+
     return (
         <div className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-dark-mode-black overflow-y-hidden z-[1099] transition">
             <div className="place-card__scroll h-full overflow-y-auto">
@@ -134,11 +137,9 @@ export default function PlaceCard({
                     {dates.map((elem) => (
                         <div
                             key={elem.id}
-                            className={`place-card__date-box ${
-                                elem.active
-                                    ? "bg-blue-900 hover:bg-blue-800"
-                                    : ""
-                            }`}
+                            className={`place-card__date-box ${styleIsActiveDataBox(
+                                elem.active,
+                            )}`}
                             onClick={() => handleActivateDate(elem.id)}
                         >
                             {elem.date}

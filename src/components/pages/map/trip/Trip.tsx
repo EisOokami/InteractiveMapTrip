@@ -245,6 +245,10 @@ export default function Trip({
         [setSortedDates, sortedDates, routeSegments],
     );
 
+    const styleIsTransportMode = (mode: string): string => {
+        return transportMode === mode ? "bg-blue-800" : "";
+    };
+
     return (
         <div className="trip absolute flex flex-col w-screen md:w-97 h-full pt-6 px-3 bg-white dark:bg-dark-mode-black z-[1999] transition">
             <h1 className="mb-3 dark:text-white text-2xl sm:text-3xl font-bold">
@@ -253,27 +257,21 @@ export default function Trip({
             <div className="transport-modes grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                 <button
                     type="button"
-                    className={`trip__btn ${
-                        transportMode === "car" ? "bg-blue-800" : ""
-                    }`}
+                    className={`trip__btn ${styleIsTransportMode("car")}`}
                     onClick={() => setTransportMode("car")}
                 >
                     <FaCar />
                 </button>
                 <button
                     type="button"
-                    className={`trip__btn ${
-                        transportMode === "bike" ? "bg-blue-800" : ""
-                    }`}
+                    className={`trip__btn ${styleIsTransportMode("bike")}`}
                     onClick={() => setTransportMode("bike")}
                 >
                     <MdDirectionsBike />
                 </button>
                 <button
                     type="button"
-                    className={`trip__btn ${
-                        transportMode === "walk" ? "bg-blue-800" : ""
-                    }`}
+                    className={`trip__btn ${styleIsTransportMode("walk")}`}
                     onClick={() => setTransportMode("walk")}
                 >
                     <FaWalking />
