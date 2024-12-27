@@ -3,8 +3,10 @@ import {
     Dispatch,
     SetStateAction,
     useCallback,
+    useRef,
     useState,
 } from "react";
+import useClickOutside from "../../../../hooks/UseClickOutside";
 import { IPositions } from "../../../../interfaces/search/interface";
 
 interface SearchProps {
@@ -26,6 +28,9 @@ export default function Search({
     const [valueName, setValueName] = useState<string>("");
     const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const refDropdown = useRef<HTMLDivElement>(null);
+
+    useClickOutside(refDropdown, () => setDropdownVisible(false));
 
     const handleChangeLocation = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,32 +84,32 @@ export default function Search({
     );
 
     return (
-        <div className="search absolute flex flex-col w-screen md:w-97 h-full px-3 bg-white dark:bg-second-black z-[1001] transition">
+        <section className="search absolute flex flex-col w-screen md:w-97 h-full px-3 bg-white dark:bg-dark-mode-black z-[1001] transition">
             <h1 className="mt-5 dark:text-white text-2xl sm:text-3xl font-bold">
                 Search
             </h1>
             <input
-                className="input_search"
+                className="search__input"
                 type="text"
                 placeholder="Location"
                 onChange={handleChangeLocation}
             />
             <input
-                className="input_search"
+                className="search__input"
                 type="text"
                 placeholder="Place name"
                 onChange={handleChangeName}
             />
-            <div className="relative">
+            <div ref={refDropdown} className="relative">
                 <input
                     onClick={handleDropdownToggle}
-                    className="btn-category_search"
+                    className="search__btn--category"
                     type="button"
                     value="Select category"
                 />
 
                 {dropdownVisible && (
-                    <div className="absolute top-11 w-full mt-2 bg-white dark:bg-second-black rounded-lg shadow border z-10 transition">
+                    <div className="absolute top-11 w-full mt-2 bg-white dark:bg-dark-mode-black border dark:border-dark-mode-gray-2 rounded-lg shadow z-10 transition">
                         <ul className="p-3 space-y-1 text-sm">
                             {uniqueCategories.map((category, key) => (
                                 <li key={key}>
@@ -123,7 +128,7 @@ export default function Search({
                                         />
                                         <label
                                             htmlFor={`checkbox-item-${key}`}
-                                            className="w-full ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 rounded transition"
+                                            className="w-full ml-2 text-sm text-gray-900 dark:text-gray-100 font-medium rounded transition"
                                         >
                                             {category}
                                         </label>
@@ -134,12 +139,12 @@ export default function Search({
                     </div>
                 )}
             </div>
-            <div className="card-search grid justify-items-center mt-3 p-2 rounded overflow-x-hidden overflow-y-scroll">
+            <div className="search__card grid justify-items-center mt-3 p-2 rounded overflow-x-hidden overflow-y-scroll">
                 {filteredPositions.map((elem) => (
                     <a
                         key={elem.id}
                         href="#"
-                        className="place-card_search"
+                        className="search__place-card"
                         onClick={() =>
                             handleZoomLocation(elem.x, elem.y, elem.id)
                         }
@@ -163,6 +168,6 @@ export default function Search({
                     </a>
                 ))}
             </div>
-        </div>
+        </section>
     );
 }

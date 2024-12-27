@@ -32,7 +32,7 @@ import {
     ISortedDates,
 } from "../../../../interfaces/trip/interface";
 
-import PlaceCardForNavigation from "./placeCardForNavigation/PlaceCardForNavigation";
+import PlaceCardTrip from "./placeCardTrip/PlaceCardTrip";
 import RouteInfo from "./routeInfo/RouteInfo";
 
 interface TripProps {
@@ -245,41 +245,39 @@ export default function Trip({
         [setSortedDates, sortedDates, routeSegments],
     );
 
+    const styleIsTransportMode = (mode: string): string => {
+        return transportMode === mode ? "bg-blue-800" : "";
+    };
+
     return (
-        <div className="trip absolute flex flex-col w-screen md:w-97 h-full pt-6 px-3 bg-white dark:bg-second-black z-[1999] transition">
+        <section className="trip absolute flex flex-col w-screen md:w-97 h-full pt-6 px-3 bg-white dark:bg-dark-mode-black z-[1999] transition">
             <h1 className="mb-3 dark:text-white text-2xl sm:text-3xl font-bold">
                 Trip Plan
             </h1>
-            <div className="transport-modes grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                 <button
                     type="button"
-                    className={`btn-global ${
-                        transportMode === "car" ? "bg-blue-800" : ""
-                    }`}
+                    className={`trip__btn ${styleIsTransportMode("car")}`}
                     onClick={() => setTransportMode("car")}
                 >
                     <FaCar />
                 </button>
                 <button
                     type="button"
-                    className={`btn-global ${
-                        transportMode === "bike" ? "bg-blue-800" : ""
-                    }`}
+                    className={`trip__btn ${styleIsTransportMode("bike")}`}
                     onClick={() => setTransportMode("bike")}
                 >
                     <MdDirectionsBike />
                 </button>
                 <button
                     type="button"
-                    className={`btn-global ${
-                        transportMode === "walk" ? "bg-blue-800" : ""
-                    }`}
+                    className={`trip__btn ${styleIsTransportMode("walk")}`}
                     onClick={() => setTransportMode("walk")}
                 >
                     <FaWalking />
                 </button>
             </div>
-            <div className="cards-place grid justify-items-center overflow-x-hidden overflow-y-scroll">
+            <div className="trip__cards grid justify-items-center overflow-x-hidden overflow-y-scroll">
                 {sortedDates.length ? (
                     sortedDates.map(({ date, places }, index) => (
                         <div key={index}>
@@ -300,7 +298,7 @@ export default function Trip({
                                 >
                                     {places.map((place, index) => (
                                         <div key={index}>
-                                            <PlaceCardForNavigation
+                                            <PlaceCardTrip
                                                 place={place}
                                                 convertTime={convertTime}
                                             />
@@ -317,10 +315,10 @@ export default function Trip({
                                         </div>
                                     ))}
                                 </SortableContext>
-                                <div className="btn-navigation flex mt-3">
+                                <div className="flex mt-3">
                                     <button
                                         type="button"
-                                        className="btn-global"
+                                        className="trip__btn"
                                         onClick={() =>
                                             handleNavigation(places, date)
                                         }
@@ -329,7 +327,7 @@ export default function Trip({
                                         Navigation
                                     </button>
                                     {isRoute === date && (
-                                        <p className="msg-info_trip">
+                                        <p className="trip__msg--info">
                                             <FaInfoCircle className="text-blue-800 text-2xl" />
                                             Route has been planned
                                         </p>
@@ -339,13 +337,13 @@ export default function Trip({
                         </div>
                     ))
                 ) : (
-                    <div className="date-section mb-4">
+                    <div className="mb-4">
                         <h1 className="mb-2 dark:text-white text-2xl font-semibold transition">
                             Add places for the trip
                         </h1>
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     );
 }

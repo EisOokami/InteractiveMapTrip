@@ -8,7 +8,6 @@ import {
     LayerGroup,
 } from "react-leaflet";
 import { Icon } from "leaflet";
-import "./Map.scss";
 import { IPositions } from "../../../../interfaces/map/interface";
 
 function ChangeView({ center }: { center: [number, number] }) {

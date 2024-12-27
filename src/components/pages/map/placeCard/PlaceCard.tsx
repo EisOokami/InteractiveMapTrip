@@ -103,16 +103,19 @@ export default function PlaceCard({
         setZoomLocationY(19.375);
     }, [setOpenPlaceCard, setZoomLocationX, setZoomLocationY]);
 
+    const styleIsActiveDataBox = (isActive: boolean) =>
+        isActive ? "bg-blue-900 hover:bg-blue-800" : "";
+
     return (
-        <div className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-second-black overflow-y-hidden z-[1099] transition">
-            <div className="place-card-scroll h-full overflow-y-auto">
+        <section className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-dark-mode-black overflow-y-hidden z-[1099] transition">
+            <div className="place-card__scroll h-full overflow-y-auto">
                 <div
-                    className="btn-back_place-card"
+                    className="place-card__btn--back"
                     onClick={handleOpenPlaceCard}
                 >
                     <IoArrowBack className="w-[30px] h-[30px] text-white" />
                 </div>
-                <div className="place-info max-w-x">
+                <div className="w-full">
                     <img
                         className="w-full h-1/2"
                         src={positions[positionId].img}
@@ -121,35 +124,35 @@ export default function PlaceCard({
                     <h1 className="mt-3 mb-3 px-4 dark:text-white text-2xl sm:text-3xl font-bold transition">
                         {positions[positionId].name}
                     </h1>
-                    <p className="icon-paragraph_place-card mb-2 pt-1 px-4">
-                        <BiSolidCategory className="icon_place-card" />
+                    <p className="place-card__icon-paragraph mb-2 pt-1 px-4">
+                        <BiSolidCategory className="place-card__icon" />
                         Category: {positions[positionId].category}
                     </p>
-                    <p className="icon-paragraph_place-card px-4 pb-4">
-                        <FaCity className="icon_place-card" />
+                    <p className="place-card__icon-paragraph px-4 pb-4">
+                        <FaCity className="place-card__icon" />
                         City/Village: {positions[positionId].location}
                     </p>
                 </div>
-                <div className="date-trip grid grid-cols-5 gap-2 my-3 px-4">
+                <div className="grid grid-cols-5 gap-2 my-3 px-4">
                     {dates.map((elem) => (
                         <div
                             key={elem.id}
-                            className={`date-box_place-card ${
-                                elem.active ? "bg-blue-900" : ""
-                            }`}
+                            className={`place-card__date-box ${styleIsActiveDataBox(
+                                elem.active,
+                            )}`}
                             onClick={() => handleActivateDate(elem.id)}
                         >
                             {elem.date}
                         </div>
                     ))}
                     <div
-                        className="date-box_place-card"
+                        className="place-card__date-box"
                         onClick={handleDateStorage}
                     >
                         <FaPlusCircle className="w-10/12 h-1/2" />
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

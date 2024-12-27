@@ -1,0 +1,17 @@
+@layer components {
+    .place-card__date-box {
+        @apply flex justify-center items-center w-12 h-12 text-white bg-bright-blue hover:bg-blue-700 rounded transition cursor-pointer;
+    }
+
+    .place-card__icon-paragraph {
+        @apply flex items-center gap-1 md:text-lg dark:text-white transition;
+    }
+
+    .place-card__icon {
+        @apply w-7 h-7 p-1 bg-bright-blue text-white rounded-md;
+    }
+
+    .place-card__btn--back {
+        @apply absolute top-12 left-2 flex justify-center items-center w-[35px] h-[35px] bg-bright-blue hover:bg-blue-700 rounded-full z-[3000] transition cursor-pointer;
+    }
+}
