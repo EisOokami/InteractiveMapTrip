@@ -1,68 +1,13 @@
+@use "navbar.scss";
+@use "place-card.scss";
+@use "search.scss";
+@use "trip.scss";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
-    .option_navbar {
-        @apply relative px-8 py-4 md:px-10 md:py-5 text-2xl md:text-3xl text-[#2f2e2e] dark:text-dark-mode-gray hover:text-bright-blue dark:hover:hover:text-bright-blue border-b-[3px] md:border-b-0 md:border-l-[3px] border-white dark:border-dark-mode-black hover:border-bright-blue dark:hover:border-bright-blue cursor-pointer z-10 transition;
-    }
-
-    .option-active_navbar {
-        @apply text-bright-blue dark:text-bright-blue bg-gradient-to-t md:bg-gradient-to-r from-bright-blue/30 border-b-[3px] md:border-b-0 md:border-l-[3px] border-bright-blue dark:border-bright-blue;
-    }
-
-    .option-bg-gradient_navbar {
-        @apply absolute inset-0 w-full h-full bg-gradient-to-t md:bg-gradient-to-r from-bright-blue/30 opacity-0 hover:opacity-100 z-0 transition;
-    }
-
-    .input_search {
-        @apply w-full mt-4 p-2 text-black dark:text-white bg-white dark:bg-dark-mode-black border border-gray-300 rounded transition;
-    }
-
-    .btn-category_search {
-        @apply w-full h-10 mt-3 px-5 py-2.5 text-white text-sm font-medium bg-bright-blue hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none rounded-lg transition;
-    }
-
-    .place-card_search {
-        @apply grid w-80 mr-4 mb-3 bg-white dark:bg-dark-mode-black hover:bg-gray-100 dark:hover:bg-dark-mode-gray-2 border border-gray-200 dark:border-gray-800 rounded-lg shadow transition;
-    }
-
-    .date-box_place-card {
-        @apply flex justify-center items-center w-12 h-12 text-white bg-bright-blue hover:bg-blue-700 rounded transition cursor-pointer;
-    }
-
-    .icon-paragraph_place-card {
-        @apply flex items-center gap-1 md:text-lg dark:text-white transition;
-    }
-
-    .icon_place-card {
-        @apply w-7 h-7 p-1 bg-bright-blue text-white rounded-md;
-    }
-
-    .btn-back_place-card {
-        @apply absolute top-12 left-2 flex justify-center items-center w-[35px] h-[35px] bg-bright-blue hover:bg-blue-700 rounded-full z-[3000] transition cursor-pointer;
-    }
-
-    .place-card_trip {
-        @apply grid w-80 mr-4 mb-3 bg-white dark:bg-dark-mode-black hover:bg-gray-100 dark:hover:bg-dark-mode-gray-2 border border-gray-200 dark:border-gray-800 rounded-lg shadow transition;
-    }
-
-    .msg-info_trip {
-        @apply flex items-center gap-1 dark:text-white text-lg font-bold transition;
-    }
-
-    .place-card-paragraph_trip {
-        @apply text-gray-600 dark:text-gray-300 text-sm transition;
-    }
-
-    .route-info-paragraph_trip {
-        @apply dark:text-white font-medium transition;
-    }
-
-    .route-info-icon_trip {
-        @apply dark:text-white text-2xl transition;
-    }
-
     .btn-global {
         @apply flex justify-center items-center gap-2 me-2 mb-2 px-5 py-2.5 text-white text-sm md:text-base lg:text-lg font-medium bg-bright-blue hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-lg transition;
     }
