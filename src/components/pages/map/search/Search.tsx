@@ -100,7 +100,7 @@ export default function Search({
                 placeholder="Place name"
                 onChange={handleChangeName}
             />
-            <div className="relative">
+            <div ref={refDropdown} className="relative">
                 <input
                     onClick={handleDropdownToggle}
                     className="search__btn--category"
@@ -109,10 +109,7 @@ export default function Search({
                 />
 
                 {dropdownVisible && (
-                    <div
-                        ref={refDropdown}
-                        className="absolute top-11 w-full mt-2 bg-white dark:bg-dark-mode-black rounded-lg shadow border z-10 transition"
-                    >
+                    <div className="absolute top-11 w-full mt-2 bg-white dark:bg-dark-mode-black border dark:border-dark-mode-gray-2 rounded-lg shadow z-10 transition">
                         <ul className="p-3 space-y-1 text-sm">
                             {uniqueCategories.map((category, key) => (
                                 <li key={key}>
