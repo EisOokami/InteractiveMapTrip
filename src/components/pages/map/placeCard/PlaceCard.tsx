@@ -104,7 +104,7 @@ export default function PlaceCard({
     }, [setOpenPlaceCard, setZoomLocationX, setZoomLocationY]);
 
     return (
-        <div className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-second-black overflow-y-hidden z-[1099] transition">
+        <div className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-dark-mode-black overflow-y-hidden z-[1099] transition">
             <div className="place-card-scroll h-full overflow-y-auto">
                 <div
                     className="btn-back_place-card"
@@ -135,7 +135,9 @@ export default function PlaceCard({
                         <div
                             key={elem.id}
                             className={`date-box_place-card ${
-                                elem.active ? "bg-blue-900" : ""
+                                elem.active
+                                    ? "bg-blue-900 hover:bg-blue-800"
+                                    : ""
                             }`}
                             onClick={() => handleActivateDate(elem.id)}
                         >

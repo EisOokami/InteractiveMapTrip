@@ -34,7 +34,7 @@
         transition-property: color, background-color, border-color,
             text-decoration-color, fill, stroke;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 700ms;
+        transition-duration: 150ms;
 
         &:first-child {
             border-top-left-radius: 10px !important;
@@ -50,7 +50,11 @@
 
 .dark .leaflet-control-zoom a {
     color: #fff;
-    background-color: #19191e;
+    background-color: #09090b;
+
+    &:hover {
+        background-color: #27272a;
+    }
 }
 
 .leaflet-control-layers {
@@ -63,7 +67,7 @@
         transition-property: color, background-color, border-color,
             text-decoration-color, fill, stroke;
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 700ms;
+        transition-duration: 150ms;
     }
 
     section label {
@@ -74,11 +78,11 @@
 .dark .leaflet-control-layers,
 .dark .leaflet-control-layers-expanded {
     color: #fff;
-    background-color: #19191e;
+    background-color: #09090b;
     cursor: pointer;
 
     a {
-        background-color: #19191e;
+        background-color: #09090b;
     }
 }
 

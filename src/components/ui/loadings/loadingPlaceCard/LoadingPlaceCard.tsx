@@ -3,7 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 export default function LoadingPlaceCard() {
     return (
-        <div className="absolute grid content-start w-full h-full border-r bg-white dark:bg-second-black z-[1100]">
+        <div className="absolute grid content-start w-full h-full border-r bg-white dark:bg-dark-mode-black z-[1100]">
             <div className="w-full">
                 <Skeleton width="100%" height="250px" />
             </div>

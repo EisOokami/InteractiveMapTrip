@@ -67,7 +67,7 @@ const Navbar = memo(function Navbar({
     ]);
 
     return (
-        <div className="navbar md:grid bg-white dark:bg-second-black border-t-2 md:border-t-0 md:border-r-2 dark:border-second-gray font-mono z-[1999] transition">
+        <div className="navbar md:grid bg-white dark:bg-dark-mode-black border-t-2 md:border-t-0 md:border-r-2 dark:border-dark-mode-gray-2 font-mono z-[1999] transition">
             <ul className="flex justify-around md:flex-col md:justify-center">
                 <motion.li
                     className={`option_navbar ${!openSearch && !openTrip ? "option-active_navbar" : ""}`}

@@ -6,8 +6,9 @@ export default {
         extend: {
             colors: {
                 "bright-blue": "#0096FF",
-                "second-black": "#090808",
-                "second-gray": "#19191e",
+                "dark-mode-black": "#09090B",
+                "dark-mode-gray": "#B5B5B6",
+                "dark-mode-gray-2": "#27272A",
             },
             spacing: {
                 97: "385px",
