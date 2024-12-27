@@ -253,7 +253,7 @@ export default function Trip({
             <div className="transport-modes grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                 <button
                     type="button"
-                    className={`btn-global ${
+                    className={`trip__btn ${
                         transportMode === "car" ? "bg-blue-800" : ""
                     }`}
                     onClick={() => setTransportMode("car")}
@@ -262,7 +262,7 @@ export default function Trip({
                 </button>
                 <button
                     type="button"
-                    className={`btn-global ${
+                    className={`trip__btn ${
                         transportMode === "bike" ? "bg-blue-800" : ""
                     }`}
                     onClick={() => setTransportMode("bike")}
@@ -271,7 +271,7 @@ export default function Trip({
                 </button>
                 <button
                     type="button"
-                    className={`btn-global ${
+                    className={`trip__btn ${
                         transportMode === "walk" ? "bg-blue-800" : ""
                     }`}
                     onClick={() => setTransportMode("walk")}
@@ -320,7 +320,7 @@ export default function Trip({
                                 <div className="btn-navigation flex mt-3">
                                     <button
                                         type="button"
-                                        className="btn-global"
+                                        className="trip__btn"
                                         onClick={() =>
                                             handleNavigation(places, date)
                                         }
@@ -329,7 +329,7 @@ export default function Trip({
                                         Navigation
                                     </button>
                                     {isRoute === date && (
-                                        <p className="msg-info_trip">
+                                        <p className="trip__msg--info">
                                             <FaInfoCircle className="text-blue-800 text-2xl" />
                                             Route has been planned
                                         </p>

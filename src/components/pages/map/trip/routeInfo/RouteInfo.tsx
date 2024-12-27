@@ -22,8 +22,8 @@ export default function RouteInfo({
                                     key={indexDistance}
                                     className="grid place-items-center"
                                 >
-                                    <FaLongArrowAltDown className="route-info-icon_trip" />
-                                    <p className="route-info-paragraph_trip">
+                                    <FaLongArrowAltDown className="trip__route-info--icon" />
+                                    <p className="trip__route-info--paragraph">
                                         Total distance: {distance} km
                                     </p>
                                 </div>
@@ -37,10 +37,10 @@ export default function RouteInfo({
                                     key={indexTime}
                                     className="grid place-items-center"
                                 >
-                                    <p className="route-info-paragraph_trip">
+                                    <p className="trip__route-info--paragraph">
                                         Total time: {time} hours
                                     </p>
-                                    <FaLongArrowAltDown className="route-info-icon_trip" />
+                                    <FaLongArrowAltDown className="trip__route-info--icon" />
                                 </div>
                             );
                         }

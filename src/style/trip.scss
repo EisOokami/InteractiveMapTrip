@@ -1,21 +1,25 @@
 @layer components {
-    .place-card_trip {
+    .trip__place-card {
         @apply grid w-80 mr-4 mb-3 bg-white dark:bg-dark-mode-black hover:bg-gray-100 dark:hover:bg-dark-mode-gray-2 border border-gray-200 dark:border-gray-800 rounded-lg shadow transition;
     }
 
-    .msg-info_trip {
+    .trip__msg--info {
         @apply flex items-center gap-1 dark:text-white text-lg font-bold transition;
     }
 
-    .place-card-paragraph_trip {
+    .trip__place-card--paragraph {
         @apply text-gray-600 dark:text-gray-300 text-sm transition;
     }
 
-    .route-info-paragraph_trip {
+    .trip__route-info--paragraph {
         @apply dark:text-white font-medium transition;
     }
 
-    .route-info-icon_trip {
+    .trip__route-info--icon {
         @apply dark:text-white text-2xl transition;
+    }
+
+    .trip__btn {
+        @apply flex justify-center items-center gap-2 me-2 mb-2 px-5 py-2.5 text-white text-sm md:text-base lg:text-lg font-medium bg-bright-blue hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-lg transition;
     }
 }

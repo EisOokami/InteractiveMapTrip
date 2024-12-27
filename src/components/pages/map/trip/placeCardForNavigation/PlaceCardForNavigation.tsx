@@ -27,21 +27,23 @@ export default function PlaceCardForNavigation({
 
     return (
         <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
-            <div className="place-card_trip">
+            <div className="trip__place-card">
                 <img
                     src={place.img}
                     alt={place.name}
                     className="w-full h-36 object-cover rounded-t-lg"
                 />
                 <div className="flex flex-col justify-between p-4 leading-normal">
-                    <h3 className="place-card-paragraph_trip">{place.name}</h3>
-                    <p className="place-card-paragraph_trip italic">
+                    <h3 className="trip__place-card--paragraph">
+                        {place.name}
+                    </h3>
+                    <p className="trip__place-card--paragraph italic">
                         {place.location}
                     </p>
-                    <p className="place-card-paragraph_trip">
+                    <p className="trip__place-card--paragraph">
                         Category: {place.category}
                     </p>
-                    <p className="place-card-paragraph_trip">
+                    <p className="trip__place-card--paragraph">
                         Time spent: ≈{convertTime(place.time)} hours
                     </p>
                 </div>

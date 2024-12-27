@@ -84,13 +84,13 @@ export default function Search({
                 Search
             </h1>
             <input
-                className="input_search"
+                className="search__input"
                 type="text"
                 placeholder="Location"
                 onChange={handleChangeLocation}
             />
             <input
-                className="input_search"
+                className="search__input"
                 type="text"
                 placeholder="Place name"
                 onChange={handleChangeName}
@@ -98,7 +98,7 @@ export default function Search({
             <div className="relative">
                 <input
                     onClick={handleDropdownToggle}
-                    className="btn-category_search"
+                    className="search__btn--category"
                     type="button"
                     value="Select category"
                 />
@@ -139,7 +139,7 @@ export default function Search({
                     <a
                         key={elem.id}
                         href="#"
-                        className="place-card_search"
+                        className="search__place-card"
                         onClick={() =>
                             handleZoomLocation(elem.x, elem.y, elem.id)
                         }

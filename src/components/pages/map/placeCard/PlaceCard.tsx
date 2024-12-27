@@ -107,7 +107,7 @@ export default function PlaceCard({
         <div className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-dark-mode-black overflow-y-hidden z-[1099] transition">
             <div className="place-card-scroll h-full overflow-y-auto">
                 <div
-                    className="btn-back_place-card"
+                    className="place-card__btn--back"
                     onClick={handleOpenPlaceCard}
                 >
                     <IoArrowBack className="w-[30px] h-[30px] text-white" />
@@ -121,12 +121,12 @@ export default function PlaceCard({
                     <h1 className="mt-3 mb-3 px-4 dark:text-white text-2xl sm:text-3xl font-bold transition">
                         {positions[positionId].name}
                     </h1>
-                    <p className="icon-paragraph_place-card mb-2 pt-1 px-4">
-                        <BiSolidCategory className="icon_place-card" />
+                    <p className="place-card__icon-paragraph mb-2 pt-1 px-4">
+                        <BiSolidCategory className="place-card__icon" />
                         Category: {positions[positionId].category}
                     </p>
-                    <p className="icon-paragraph_place-card px-4 pb-4">
-                        <FaCity className="icon_place-card" />
+                    <p className="place-card__icon-paragraph px-4 pb-4">
+                        <FaCity className="place-card__icon" />
                         City/Village: {positions[positionId].location}
                     </p>
                 </div>
@@ -134,7 +134,7 @@ export default function PlaceCard({
                     {dates.map((elem) => (
                         <div
                             key={elem.id}
-                            className={`date-box_place-card ${
+                            className={`place-card__date-box ${
                                 elem.active
                                     ? "bg-blue-900 hover:bg-blue-800"
                                     : ""
@@ -145,7 +145,7 @@ export default function PlaceCard({
                         </div>
                     ))}
                     <div
-                        className="date-box_place-card"
+                        className="place-card__date-box"
                         onClick={handleDateStorage}
                     >
                         <FaPlusCircle className="w-10/12 h-1/2" />

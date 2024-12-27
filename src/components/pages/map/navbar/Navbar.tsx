@@ -70,25 +70,25 @@ const Navbar = memo(function Navbar({
         <div className="navbar md:grid bg-white dark:bg-dark-mode-black border-t-2 md:border-t-0 md:border-r-2 dark:border-dark-mode-gray-2 font-mono z-[1999] transition">
             <ul className="flex justify-around md:flex-col md:justify-center">
                 <motion.li
-                    className={`option_navbar ${!openSearch && !openTrip ? "option-active_navbar" : ""}`}
+                    className={`navbar__option ${!openSearch && !openTrip ? "navbar__option--active" : ""}`}
                     onClick={handleOpenMap}
                 >
                     <FaMapMarkerAlt />
-                    <div className="option-bg-gradient_navbar"></div>
+                    <div className="navbar__option--bg-gradient"></div>
                 </motion.li>
                 <li
-                    className={`option_navbar ${openSearch ? "option-active_navbar" : ""}`}
+                    className={`navbar__option ${openSearch ? "navbar__option--active" : ""}`}
                     onClick={handleOpenSearch}
                 >
                     <FaSearch />
-                    <div className="option-bg-gradient_navbar"></div>
+                    <div className="navbar__option--bg-gradient"></div>
                 </li>
                 <li
-                    className={`option_navbar ${openTrip ? "option-active_navbar" : ""}`}
+                    className={`navbar__option ${openTrip ? "navbar__option--active" : ""}`}
                     onClick={handleOpenTrip}
                 >
                     <FaPersonHiking />
-                    <div className="option-bg-gradient_navbar"></div>
+                    <div className="navbar__option--bg-gradient"></div>
                 </li>
             </ul>
         </div>
