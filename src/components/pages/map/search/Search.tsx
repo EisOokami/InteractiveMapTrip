@@ -3,9 +3,11 @@ import {
     Dispatch,
     SetStateAction,
     useCallback,
+    useRef,
     useState,
 } from "react";
 import { IPositions } from "../../../../interfaces/search/interface";
+import useClickOutside from "../../../../hooks/UseClickOutside";
 
 interface SearchProps {
     positions: IPositions[];
@@ -26,6 +28,9 @@ export default function Search({
     const [valueName, setValueName] = useState<string>("");
     const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const refDropdown = useRef<HTMLDivElement>(null);
+
+    useClickOutside(refDropdown, () => setDropdownVisible(false));
 
     const handleChangeLocation = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +109,10 @@ export default function Search({
                 />
 
                 {dropdownVisible && (
-                    <div className="absolute top-11 w-full mt-2 bg-white dark:bg-dark-mode-black rounded-lg shadow border z-10 transition">
+                    <div
+                        ref={refDropdown}
+                        className="absolute top-11 w-full mt-2 bg-white dark:bg-dark-mode-black rounded-lg shadow border z-10 transition"
+                    >
                         <ul className="p-3 space-y-1 text-sm">
                             {uniqueCategories.map((category, key) => (
                                 <li key={key}>
