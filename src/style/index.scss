@@ -2,6 +2,7 @@
 @use "place-card.scss";
 @use "search.scss";
 @use "trip.scss";
+@use "map.scss";
 
 @tailwind base;
 @tailwind components;
@@ -12,9 +13,9 @@ body {
     overflow-y: hidden;
 }
 
-.card-search,
-.cards-place,
-.place-card-scroll {
+.search__card,
+.trip__cards,
+.place-card__scroll {
     &::-webkit-scrollbar-track {
         background-color: #d1d1d1;
     }
@@ -30,9 +31,9 @@ body {
     }
 }
 
-.dark .card-search,
-.dark .cards-place,
-.dark .place-card-scroll {
+.dark .search__card,
+.dark .trip__cards,
+.dark .place-card__scroll {
     &::-webkit-scrollbar-track {
         background-color: #2b2b2b;
     }

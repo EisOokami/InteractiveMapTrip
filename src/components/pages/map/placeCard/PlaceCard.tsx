@@ -105,14 +105,14 @@ export default function PlaceCard({
 
     return (
         <div className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-dark-mode-black overflow-y-hidden z-[1099] transition">
-            <div className="place-card-scroll h-full overflow-y-auto">
+            <div className="place-card__scroll h-full overflow-y-auto">
                 <div
                     className="place-card__btn--back"
                     onClick={handleOpenPlaceCard}
                 >
                     <IoArrowBack className="w-[30px] h-[30px] text-white" />
                 </div>
-                <div className="place-info max-w-x">
+                <div className="w-full">
                     <img
                         className="w-full h-1/2"
                         src={positions[positionId].img}
@@ -130,7 +130,7 @@ export default function PlaceCard({
                         City/Village: {positions[positionId].location}
                     </p>
                 </div>
-                <div className="date-trip grid grid-cols-5 gap-2 my-3 px-4">
+                <div className="grid grid-cols-5 gap-2 my-3 px-4">
                     {dates.map((elem) => (
                         <div
                             key={elem.id}

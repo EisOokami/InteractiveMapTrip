@@ -134,7 +134,7 @@ export default function Search({
                     </div>
                 )}
             </div>
-            <div className="card-search grid justify-items-center mt-3 p-2 rounded overflow-x-hidden overflow-y-scroll">
+            <div className="search__card grid justify-items-center mt-3 p-2 rounded overflow-x-hidden overflow-y-scroll">
                 {filteredPositions.map((elem) => (
                     <a
                         key={elem.id}

@@ -279,7 +279,7 @@ export default function Trip({
                     <FaWalking />
                 </button>
             </div>
-            <div className="cards-place grid justify-items-center overflow-x-hidden overflow-y-scroll">
+            <div className="trip__cards grid justify-items-center overflow-x-hidden overflow-y-scroll">
                 {sortedDates.length ? (
                     sortedDates.map(({ date, places }, index) => (
                         <div key={index}>
@@ -317,7 +317,7 @@ export default function Trip({
                                         </div>
                                     ))}
                                 </SortableContext>
-                                <div className="btn-navigation flex mt-3">
+                                <div className="flex mt-3">
                                     <button
                                         type="button"
                                         className="trip__btn"
@@ -339,7 +339,7 @@ export default function Trip({
                         </div>
                     ))
                 ) : (
-                    <div className="date-section mb-4">
+                    <div className="mb-4">
                         <h1 className="mb-2 dark:text-white text-2xl font-semibold transition">
                             Add places for the trip
                         </h1>

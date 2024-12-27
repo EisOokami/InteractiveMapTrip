@@ -88,7 +88,7 @@ export default function MapPage() {
     }
 
     return (
-        <div className="app flex flex-col h-svh">
+        <div className="flex flex-col h-svh">
             <div className="flex-grow flex">
                 <div className="hidden md:flex">
                     <Suspense fallback={<LoadingNavbar />}>
@@ -107,7 +107,7 @@ export default function MapPage() {
                     {openSearch && (
                         <motion.div
                             key="search"
-                            className="search-container relative h-full md:h-screen z-[1001] md:z-0"
+                            className="relative h-full md:h-screen z-[1001] md:z-0"
                             variants={animationSettings}
                             initial="initial"
                             animate="animate"
@@ -142,7 +142,7 @@ export default function MapPage() {
                     {openTrip && (
                         <motion.div
                             key="trip"
-                            className="trip-container relative h-full md:h-screen z-[1001] md:z-0"
+                            className="relative h-full md:h-screen z-[1001] md:z-0"
                             variants={animationSettings}
                             initial="initial"
                             animate="animate"
