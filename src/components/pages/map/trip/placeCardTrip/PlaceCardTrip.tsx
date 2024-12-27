@@ -3,15 +3,15 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { IPositions } from "../../../../../interfaces/trip/interface";
 
-interface PlaceCardForNavigationProps {
+interface PlaceCardTripProps {
     place: IPositions;
     convertTime: (totalSeconds: number) => string;
 }
 
-export default function PlaceCardForNavigation({
+export default function PlaceCardTrip({
     place,
     convertTime,
-}: PlaceCardForNavigationProps) {
+}: PlaceCardTripProps) {
     const id = place.id;
     const { attributes, listeners, setNodeRef, transform, isDragging } =
         useSortable({
@@ -31,7 +31,7 @@ export default function PlaceCardForNavigation({
                 <img
                     src={place.img}
                     alt={place.name}
-                    className="w-full h-36 object-cover rounded-t-lg"
+                    className="object-cover w-full h-36 rounded-t-lg"
                 />
                 <div className="flex flex-col justify-between p-4 leading-normal">
                     <h3 className="trip__place-card--paragraph">

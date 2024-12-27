@@ -3,7 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 export default function LoadingTrip() {
     return (
-        <div className="absolute grid content-start gap-4 p-3 w-screen md:w-97 h-full bg-white dark:bg-dark-mode-black md:border-r z-[1999]">
+        <section className="absolute grid content-start gap-4 p-3 w-screen md:w-97 h-full bg-white dark:bg-dark-mode-black md:border-r z-[1999]">
             <div className="w-full">
                 <Skeleton width="140px" height="40px" />
             </div>
@@ -34,6 +34,6 @@ export default function LoadingTrip() {
                     <Skeleton width="150px" height="50px" />
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

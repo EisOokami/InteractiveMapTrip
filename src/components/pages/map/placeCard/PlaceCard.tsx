@@ -107,7 +107,7 @@ export default function PlaceCard({
         isActive ? "bg-blue-900 hover:bg-blue-800" : "";
 
     return (
-        <div className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-dark-mode-black overflow-y-hidden z-[1099] transition">
+        <section className="place-card absolute -inset-y-10 w-screen md:w-97 h-[calc(100%+40px)] bg-white dark:bg-dark-mode-black overflow-y-hidden z-[1099] transition">
             <div className="place-card__scroll h-full overflow-y-auto">
                 <div
                     className="place-card__btn--back"
@@ -153,6 +153,6 @@ export default function PlaceCard({
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

@@ -32,7 +32,7 @@ import {
     ISortedDates,
 } from "../../../../interfaces/trip/interface";
 
-import PlaceCardForNavigation from "./placeCardForNavigation/PlaceCardForNavigation";
+import PlaceCardTrip from "./placeCardTrip/PlaceCardTrip";
 import RouteInfo from "./routeInfo/RouteInfo";
 
 interface TripProps {
@@ -250,11 +250,11 @@ export default function Trip({
     };
 
     return (
-        <div className="trip absolute flex flex-col w-screen md:w-97 h-full pt-6 px-3 bg-white dark:bg-dark-mode-black z-[1999] transition">
+        <section className="trip absolute flex flex-col w-screen md:w-97 h-full pt-6 px-3 bg-white dark:bg-dark-mode-black z-[1999] transition">
             <h1 className="mb-3 dark:text-white text-2xl sm:text-3xl font-bold">
                 Trip Plan
             </h1>
-            <div className="transport-modes grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-4">
                 <button
                     type="button"
                     className={`trip__btn ${styleIsTransportMode("car")}`}
@@ -298,7 +298,7 @@ export default function Trip({
                                 >
                                     {places.map((place, index) => (
                                         <div key={index}>
-                                            <PlaceCardForNavigation
+                                            <PlaceCardTrip
                                                 place={place}
                                                 convertTime={convertTime}
                                             />
@@ -344,6 +344,6 @@ export default function Trip({
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     );
 }

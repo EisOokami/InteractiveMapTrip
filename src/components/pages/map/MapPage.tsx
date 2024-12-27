@@ -16,7 +16,7 @@ import LoadingTrip from "../../ui/loadings/loadingTrip/LoadingTrip";
 import LoadingMap from "../../ui/loadings/loadingMap/LoadingMap";
 import LoadingDarkModeBtn from "../../ui/loadings/loadingDarkModeBtn/LoadingDarkModeBtn";
 const Map = lazy(() => import("./map/Map"));
-const Navbar = lazy(() => import("./navbar/Navbar"));
+const Sidebar = lazy(() => import("./sidebar/Sidebar"));
 const Search = lazy(() => import("./search/Search"));
 const PlaceCard = lazy(() => import("./placeCard/PlaceCard"));
 const Trip = lazy(() => import("./trip/Trip"));
@@ -76,7 +76,7 @@ export default function MapPage() {
 
     if (isPositionLoading) {
         return (
-            <div className="flex flex-col justify-center items-center w-screen h-screen">
+            <div className="flex flex-col justify-center items-center w-screen h-screen p-5 md:p-0">
                 <div className="grid justify-items-center gap-5">
                     <h3 className="text-4xl">Loading...</h3>
                     <h3 className="text-2xl">
@@ -88,11 +88,11 @@ export default function MapPage() {
     }
 
     return (
-        <div className="flex flex-col h-svh">
+        <section className="flex flex-col h-svh">
             <div className="flex-grow flex">
                 <div className="hidden md:flex">
                     <Suspense fallback={<LoadingNavbar />}>
-                        <Navbar
+                        <Sidebar
                             openSearch={openSearch}
                             setOpenSearch={setOpenSearch}
                             setOpenPlaceCard={setOpenPlaceCard}
@@ -165,7 +165,7 @@ export default function MapPage() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-                <div className="md:relative flex-grow h-full">
+                <main className="md:relative flex-grow h-full">
                     <Suspense fallback={<LoadingMap />}>
                         <Map
                             setOpenSearch={setOpenSearch}
@@ -182,11 +182,11 @@ export default function MapPage() {
                     <Suspense fallback={<LoadingDarkModeBtn />}>
                         <DarkModeBtn />
                     </Suspense>
-                </div>
+                </main>
             </div>
             <div className="md:hidden">
                 <Suspense fallback={<LoadingNavbar />}>
-                    <Navbar
+                    <Sidebar
                         openSearch={openSearch}
                         setOpenSearch={setOpenSearch}
                         setOpenPlaceCard={setOpenPlaceCard}
@@ -197,6 +197,6 @@ export default function MapPage() {
                     />
                 </Suspense>
             </div>
-        </div>
+        </section>
     );
 }

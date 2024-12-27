@@ -71,7 +71,7 @@ const Navbar = memo(function Navbar({
     const styleIsActiveTrip = openTrip ? "navbar__option--active" : "";
 
     return (
-        <div className="navbar md:grid bg-white dark:bg-dark-mode-black border-t-2 border-b-2 md:border-t-0 md:border-b-0 md:border-r-2 dark:border-dark-mode-gray-2 font-mono z-[1999] transition">
+        <nav className="sidebar md:grid font-mono bg-white dark:bg-dark-mode-black border-t-2 border-b-2 md:border-t-0 md:border-b-0 md:border-r-2 dark:border-dark-mode-gray-2 z-[1999] transition">
             <ul className="flex justify-around md:flex-col md:justify-center">
                 <li
                     className={`navbar__option ${styleIsActiveMap}`}
@@ -95,7 +95,7 @@ const Navbar = memo(function Navbar({
                     <div className="navbar__option--bg-gradient"></div>
                 </li>
             </ul>
-        </div>
+        </nav>
     );
 });
 

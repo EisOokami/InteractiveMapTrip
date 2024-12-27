@@ -6,8 +6,8 @@ import {
     useRef,
     useState,
 } from "react";
-import { IPositions } from "../../../../interfaces/search/interface";
 import useClickOutside from "../../../../hooks/UseClickOutside";
+import { IPositions } from "../../../../interfaces/search/interface";
 
 interface SearchProps {
     positions: IPositions[];
@@ -84,7 +84,7 @@ export default function Search({
     );
 
     return (
-        <div className="search absolute flex flex-col w-screen md:w-97 h-full px-3 bg-white dark:bg-dark-mode-black z-[1001] transition">
+        <section className="search absolute flex flex-col w-screen md:w-97 h-full px-3 bg-white dark:bg-dark-mode-black z-[1001] transition">
             <h1 className="mt-5 dark:text-white text-2xl sm:text-3xl font-bold">
                 Search
             </h1>
@@ -128,7 +128,7 @@ export default function Search({
                                         />
                                         <label
                                             htmlFor={`checkbox-item-${key}`}
-                                            className="w-full ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 rounded transition"
+                                            className="w-full ml-2 text-sm text-gray-900 dark:text-gray-100 font-medium rounded transition"
                                         >
                                             {category}
                                         </label>
@@ -168,6 +168,6 @@ export default function Search({
                     </a>
                 ))}
             </div>
-        </div>
+        </section>
     );
 }
