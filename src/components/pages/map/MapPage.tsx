@@ -79,7 +79,7 @@ export default function MapPage() {
             <div className="flex flex-col justify-center items-center w-screen h-screen p-5 md:p-0">
                 <div className="grid justify-items-center gap-5">
                     <h3 className="text-4xl">Loading...</h3>
-                    <h3 className="text-2xl">
+                    <h3 className="text-2xl text-center">
                         Fetching positions from the database
                     </h3>
                 </div>
